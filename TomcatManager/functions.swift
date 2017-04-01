@@ -7,14 +7,6 @@
 //
 
 import Cocoa
-import ServiceManagement
-
-func registerLauncher() {
-    
-    let worked = SMLoginItemSetEnabled(Strings.launcherAppIdentifier as CFString, true)
-    
-    print("worked: \(worked)")
-}
 
 func appIsRunning(bundleIdentifier : String) -> Bool {
     return nil != NSWorkspace.shared().runningApplications.first { (app) -> Bool in

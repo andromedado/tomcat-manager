@@ -14,7 +14,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem : NSStatusItem!
     var manager : TomcatManager?
     
-    var preferencesWindow : Preferences?
+    var preferences : Preferences!
+    var preferencesWindow : PreferencesController?
     
     var tomcatUp : Bool = false {
         didSet {
@@ -31,8 +32,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DistributedNotificationCenter.default().postNotificationName(Notifications.killManager, object: Strings.mainAppIdentifier, userInfo: nil, options: [])
         
         statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-        
         statusItem.image = #imageLiteral(resourceName: "hollowTomcat")
+        
+        self.preferences = Preferences()
         
         rebuildMenu()
         
@@ -52,7 +54,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         DistributedNotificationCenter.default().addObserver(self, selector: #selector(AppDelegate.terminate), name: Notifications.killManager, object: Strings.mainAppIdentifier)
         
-        registerLauncher()
+        if Preferences.BooleanPreference.showAtLaunch.value {
+            self.launchPreferences()
+        }
     }
     
     func setupManager() {
@@ -82,6 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Preferences", action: #selector(AppDelegate.launchPreferences), keyEquivalent: "p"))
+        menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit Manager", action: #selector(AppDelegate.terminate), keyEquivalent: "q"))
         
         statusItem.menu = menu
@@ -97,7 +102,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func launchPreferences() {
         if preferencesWindow == nil {
-            preferencesWindow = Preferences(windowNibName: "Preferences")
+            preferencesWindow = PreferencesController.build(withPref: preferences)
         }
         
         preferencesWindow?.showWindow(nil)
