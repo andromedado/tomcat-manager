@@ -26,6 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+
+        //Kill any previously running managers
+        DistributedNotificationCenter.default().postNotificationName(Notifications.killManager, object: Strings.mainAppIdentifier, userInfo: nil, options: [])
         
         statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
         
@@ -43,6 +46,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         setupManager()
         update()
+        
+        if appIsRunning(bundleIdentifier: Strings.launcherAppIdentifier) {
+            DistributedNotificationCenter.default().postNotificationName(Notifications.killLauncher, object: Strings.mainAppIdentifier, userInfo: nil, options: [])
+        }
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(AppDelegate.terminate), name: Notifications.killManager, object: Strings.mainAppIdentifier)
+        
+        registerLauncher()
     }
     
     func setupManager() {
@@ -72,7 +82,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Preferences", action: #selector(AppDelegate.launchPreferences), keyEquivalent: "p"))
-        menu.addItem(NSMenuItem(title: "Quit Manager", action: #selector(AppDelegate.quit), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit Manager", action: #selector(AppDelegate.terminate), keyEquivalent: "q"))
         
         statusItem.menu = menu
     }
@@ -94,8 +104,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         preferencesWindow?.window?.makeMain()
     }
     
-    func quit() {
-        NSApplication.shared().terminate(nil)
+    func terminate() -> Never {
+        NSApp.terminate(nil)
+        exit(0)
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {

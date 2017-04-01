@@ -9,6 +9,16 @@
 import Foundation
 import Cocoa
 
+enum Notifications {
+    static let killLauncher = NSNotification.Name(rawValue: "killLauncher")
+    static let killManager = NSNotification.Name(rawValue: "killManager")
+}
+
+enum Strings {
+    static let mainAppIdentifier = "com.shaddowney.TomcatManager"
+    static let launcherAppIdentifier = "com.shaddowney.Launcher"
+}
+
 enum Images {
     
     enum Tomcat {

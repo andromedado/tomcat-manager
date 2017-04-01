@@ -10,16 +10,15 @@ import Cocoa
 import ServiceManagement
 
 func registerLauncher() {
-    let launcherAppIdentifier = "com.shaddowney.TomcatManagerLauncher"
     
-    SMLoginItemSetEnabled(launcherAppIdentifier as CFString, true)
+    let worked = SMLoginItemSetEnabled(Strings.launcherAppIdentifier as CFString, true)
     
-    let startedAtLogin : Bool = nil != NSWorkspace.shared().runningApplications.first { (app) -> Bool in
-        return app.bundleIdentifier == launcherAppIdentifier
-    }
-    
-    if startedAtLogin {
-        DistributedNotificationCenter.default().postNotificationName(NSNotification.Name(rawValue: "killme"), object: Bundle.main.bundleIdentifier!, userInfo: nil, options: [])
+    print("worked: \(worked)")
+}
+
+func appIsRunning(bundleIdentifier : String) -> Bool {
+    return nil != NSWorkspace.shared().runningApplications.first { (app) -> Bool in
+        return app.bundleIdentifier == bundleIdentifier
     }
 }
 

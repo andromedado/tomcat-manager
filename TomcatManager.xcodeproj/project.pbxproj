@@ -16,7 +16,26 @@
 		730630271E8FF9A100556534 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630251E8FF9A100556534 /* Preferences.swift */; };
 		730630281E8FF9A100556534 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 730630261E8FF9A100556534 /* Preferences.xib */; };
 		730630461E9002CB00556534 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730630441E9002C100556534 /* ServiceManagement.framework */; };
+		7323EA7E1E9009BB004CCA6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7323EA7D1E9009BB004CCA6A /* AppDelegate.swift */; };
+		7323EA821E9009BB004CCA6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7323EA811E9009BB004CCA6A /* Assets.xcassets */; };
+		7323EA851E9009BB004CCA6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7323EA831E9009BB004CCA6A /* Main.storyboard */; };
+		7323EA8B1E9009FF004CCA6A /* Launcher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7323EA7B1E9009BB004CCA6A /* Launcher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7323EA8C1E900A9F004CCA6A /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630211E8FEA5E00556534 /* constants.swift */; };
+		7323EA8D1E900B18004CCA6A /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306301F1E8FE7EB00556534 /* functions.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7323EA8A1E9009E6004CCA6A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				7323EA8B1E9009FF004CCA6A /* Launcher.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		730630051E8FE4A600556534 /* TomcatManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomcatManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,6 +49,11 @@
 		730630251E8FF9A100556534 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		730630261E8FF9A100556534 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		730630441E9002C100556534 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		7323EA7B1E9009BB004CCA6A /* Launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Launcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7323EA7D1E9009BB004CCA6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7323EA811E9009BB004CCA6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7323EA841E9009BB004CCA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7323EA861E9009BB004CCA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +65,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7323EA781E9009BB004CCA6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -48,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				730630071E8FE4A600556534 /* TomcatManager */,
+				7323EA7C1E9009BB004CCA6A /* Launcher */,
 				730630061E8FE4A600556534 /* Products */,
 				730630431E9002C100556534 /* Frameworks */,
 			);
@@ -57,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				730630051E8FE4A600556534 /* TomcatManager.app */,
+				7323EA7B1E9009BB004CCA6A /* Launcher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -85,6 +118,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7323EA7C1E9009BB004CCA6A /* Launcher */ = {
+			isa = PBXGroup;
+			children = (
+				7323EA7D1E9009BB004CCA6A /* AppDelegate.swift */,
+				7323EA811E9009BB004CCA6A /* Assets.xcassets */,
+				7323EA831E9009BB004CCA6A /* Main.storyboard */,
+				7323EA861E9009BB004CCA6A /* Info.plist */,
+			);
+			path = Launcher;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -95,6 +139,7 @@
 				730630011E8FE4A600556534 /* Sources */,
 				730630021E8FE4A600556534 /* Frameworks */,
 				730630031E8FE4A600556534 /* Resources */,
+				7323EA8A1E9009E6004CCA6A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -103,6 +148,23 @@
 			name = TomcatManager;
 			productName = TomcatManager;
 			productReference = 730630051E8FE4A600556534 /* TomcatManager.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7323EA7A1E9009BB004CCA6A /* Launcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7323EA871E9009BB004CCA6A /* Build configuration list for PBXNativeTarget "Launcher" */;
+			buildPhases = (
+				7323EA771E9009BB004CCA6A /* Sources */,
+				7323EA781E9009BB004CCA6A /* Frameworks */,
+				7323EA791E9009BB004CCA6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Launcher;
+			productName = Launcher;
+			productReference = 7323EA7B1E9009BB004CCA6A /* Launcher.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -116,6 +178,11 @@
 				ORGANIZATIONNAME = "Shad Downey";
 				TargetAttributes = {
 					730630041E8FE4A600556534 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 6838XAF5Q4;
+						ProvisioningStyle = Automatic;
+					};
+					7323EA7A1E9009BB004CCA6A = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 6838XAF5Q4;
 						ProvisioningStyle = Automatic;
@@ -136,6 +203,7 @@
 			projectRoot = "";
 			targets = (
 				730630041E8FE4A600556534 /* TomcatManager */,
+				7323EA7A1E9009BB004CCA6A /* Launcher */,
 			);
 		};
 /* End PBXProject section */
@@ -147,6 +215,15 @@
 			files = (
 				730630281E8FF9A100556534 /* Preferences.xib in Resources */,
 				7306300D1E8FE4A600556534 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7323EA791E9009BB004CCA6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7323EA821E9009BB004CCA6A /* Assets.xcassets in Resources */,
+				7323EA851E9009BB004CCA6A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,7 +243,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7323EA771E9009BB004CCA6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7323EA7E1E9009BB004CCA6A /* AppDelegate.swift in Sources */,
+				7323EA8C1E900A9F004CCA6A /* constants.swift in Sources */,
+				7323EA8D1E900B18004CCA6A /* functions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7323EA831E9009BB004CCA6A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7323EA841E9009BB004CCA6A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		730630121E8FE4A600556534 /* Debug */ = {
@@ -291,6 +389,36 @@
 			};
 			name = Release;
 		};
+		7323EA881E9009BB004CCA6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 6838XAF5Q4;
+				INFOPLIST_FILE = Launcher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaddowney.Launcher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		7323EA891E9009BB004CCA6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 6838XAF5Q4;
+				INFOPLIST_FILE = Launcher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shaddowney.Launcher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -311,6 +439,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7323EA871E9009BB004CCA6A /* Build configuration list for PBXNativeTarget "Launcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7323EA881E9009BB004CCA6A /* Debug */,
+				7323EA891E9009BB004CCA6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

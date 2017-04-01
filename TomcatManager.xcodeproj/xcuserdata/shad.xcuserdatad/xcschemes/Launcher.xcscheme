@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "730630311E90021F00556534"
-               BuildableName = "TomcatManagerLauncher.app"
-               BlueprintName = "TomcatManagerLauncher"
+               BlueprintIdentifier = "7306304D1E9008DB00556534"
+               BuildableName = "Launcher.app"
+               BlueprintName = "Launcher"
                ReferencedContainer = "container:TomcatManager.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "730630311E90021F00556534"
-            BuildableName = "TomcatManagerLauncher.app"
-            BlueprintName = "TomcatManagerLauncher"
+            BlueprintIdentifier = "7306304D1E9008DB00556534"
+            BuildableName = "Launcher.app"
+            BlueprintName = "Launcher"
             ReferencedContainer = "container:TomcatManager.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "730630311E90021F00556534"
-            BuildableName = "TomcatManagerLauncher.app"
-            BlueprintName = "TomcatManagerLauncher"
+            BlueprintIdentifier = "7306304D1E9008DB00556534"
+            BuildableName = "Launcher.app"
+            BlueprintName = "Launcher"
             ReferencedContainer = "container:TomcatManager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -74,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "730630311E90021F00556534"
-            BuildableName = "TomcatManagerLauncher.app"
-            BlueprintName = "TomcatManagerLauncher"
+            BlueprintIdentifier = "7306304D1E9008DB00556534"
+            BuildableName = "Launcher.app"
+            BlueprintName = "Launcher"
             ReferencedContainer = "container:TomcatManager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

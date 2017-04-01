@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Launcher.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>TomcatManager.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
-		</dict>
-		<key>TomcatManagerLauncher.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -23,6 +23,21 @@
 			<true/>
 		</dict>
 		<key>730630311E90021F00556534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7306304D1E9008DB00556534</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7323EA671E900961004CCA6A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7323EA7A1E9009BB004CCA6A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
