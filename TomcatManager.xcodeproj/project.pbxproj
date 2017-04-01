@@ -8,18 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		730630091E8FE4A600556534 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630081E8FE4A600556534 /* AppDelegate.swift */; };
-		7306300B1E8FE4A600556534 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306300A1E8FE4A600556534 /* ViewController.swift */; };
 		7306300D1E8FE4A600556534 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7306300C1E8FE4A600556534 /* Assets.xcassets */; };
-		730630101E8FE4A600556534 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7306300E1E8FE4A600556534 /* Main.storyboard */; };
+		7306301E1E8FE67200556534 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306301D1E8FE67200556534 /* main.swift */; };
+		730630201E8FE7EB00556534 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306301F1E8FE7EB00556534 /* functions.swift */; };
+		730630221E8FEA5E00556534 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630211E8FEA5E00556534 /* constants.swift */; };
+		730630241E8FECF100556534 /* TomcatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630231E8FECF100556534 /* TomcatManager.swift */; };
+		730630271E8FF9A100556534 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630251E8FF9A100556534 /* Preferences.swift */; };
+		730630281E8FF9A100556534 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 730630261E8FF9A100556534 /* Preferences.xib */; };
+		730630461E9002CB00556534 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730630441E9002C100556534 /* ServiceManagement.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		730630051E8FE4A600556534 /* TomcatManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomcatManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		730630081E8FE4A600556534 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7306300A1E8FE4A600556534 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7306300C1E8FE4A600556534 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7306300F1E8FE4A600556534 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		730630111E8FE4A600556534 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7306301D1E8FE67200556534 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		7306301F1E8FE7EB00556534 /* functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
+		730630211E8FEA5E00556534 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
+		730630231E8FECF100556534 /* TomcatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TomcatManager.swift; sourceTree = "<group>"; };
+		730630251E8FF9A100556534 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		730630261E8FF9A100556534 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		730630441E9002C100556534 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				730630461E9002CB00556534 /* ServiceManagement.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +49,7 @@
 			children = (
 				730630071E8FE4A600556534 /* TomcatManager */,
 				730630061E8FE4A600556534 /* Products */,
+				730630431E9002C100556534 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -53,12 +65,24 @@
 			isa = PBXGroup;
 			children = (
 				730630081E8FE4A600556534 /* AppDelegate.swift */,
-				7306300A1E8FE4A600556534 /* ViewController.swift */,
+				7306301F1E8FE7EB00556534 /* functions.swift */,
+				730630231E8FECF100556534 /* TomcatManager.swift */,
 				7306300C1E8FE4A600556534 /* Assets.xcassets */,
-				7306300E1E8FE4A600556534 /* Main.storyboard */,
 				730630111E8FE4A600556534 /* Info.plist */,
+				7306301D1E8FE67200556534 /* main.swift */,
+				730630211E8FEA5E00556534 /* constants.swift */,
+				730630251E8FF9A100556534 /* Preferences.swift */,
+				730630261E8FF9A100556534 /* Preferences.xib */,
 			);
 			path = TomcatManager;
+			sourceTree = "<group>";
+		};
+		730630431E9002C100556534 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				730630441E9002C100556534 /* ServiceManagement.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -121,8 +145,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				730630281E8FF9A100556534 /* Preferences.xib in Resources */,
 				7306300D1E8FE4A600556534 /* Assets.xcassets in Resources */,
-				730630101E8FE4A600556534 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,23 +157,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7306300B1E8FE4A600556534 /* ViewController.swift in Sources */,
+				7306301E1E8FE67200556534 /* main.swift in Sources */,
 				730630091E8FE4A600556534 /* AppDelegate.swift in Sources */,
+				730630271E8FF9A100556534 /* Preferences.swift in Sources */,
+				730630241E8FECF100556534 /* TomcatManager.swift in Sources */,
+				730630201E8FE7EB00556534 /* functions.swift in Sources */,
+				730630221E8FEA5E00556534 /* constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		7306300E1E8FE4A600556534 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7306300F1E8FE4A600556534 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		730630121E8FE4A600556534 /* Debug */ = {
@@ -247,6 +264,7 @@
 		730630151E8FE4A600556534 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 6838XAF5Q4;
@@ -261,6 +279,7 @@
 		730630161E8FE4A600556534 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 6838XAF5Q4;
@@ -291,6 +310,7 @@
 				730630161E8FE4A600556534 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
