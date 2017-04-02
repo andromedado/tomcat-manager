@@ -10,10 +10,11 @@ import Foundation
 
 class TomcatManager {
     
-    let catalinaHome : String
+    fileprivate var catalinaHome : String {
+        return Preferences.StringPreference.catalinaHome.value
+    }
     
-    init(catalinaHome : String) {
-        self.catalinaHome = catalinaHome
+    init() {
     }
     
     @discardableResult

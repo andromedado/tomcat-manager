@@ -46,7 +46,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             strongSelf.update()
         }
         
-        setupManager()
+        self.manager = TomcatManager()
+        
         update()
         
         if appIsRunning(bundleIdentifier: Strings.launcherAppIdentifier) {
@@ -57,18 +58,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if Preferences.BooleanPreference.showAtLaunch.value {
             self.launchPreferences()
         }
-    }
-    
-    func setupManager() {
-        let res = runCommandAsUser(command: "echo $CATALINA_HOME")
-        
-        guard res.output.count == 1 else {
-            //TODO Announce Problem
-            return
-        }
-        
-        let catalinaHome = res.output[0]
-        self.manager = TomcatManager(catalinaHome: catalinaHome)
     }
     
     func update() {

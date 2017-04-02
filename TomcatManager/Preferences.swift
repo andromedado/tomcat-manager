@@ -9,6 +9,8 @@
 import Foundation
 import ServiceManagement
 
+fileprivate let kPreferenceStorageKeyPrefix = "com.shad.tomcatManagerPrefs."
+
 fileprivate protocol CanSetup {
     func setup()
 }
@@ -30,7 +32,37 @@ extension PersistablePreference {
 
 class Preferences {
     
-    internal enum BooleanPreference : String {
+    enum StringPreference : String, PersistablePreference {
+        typealias ValueType = String
+        
+        case catalinaHome
+        
+        static let all : [StringPreference] = [
+            .catalinaHome
+        ]
+        
+        var keyValue : String {
+            return kPreferenceStorageKeyPrefix + self.rawValue
+        }
+        
+        var defaultValue : String {
+            switch self {
+            case .catalinaHome:
+                let res = runCommandAsUser(command: "echo $CATALINA_HOME")
+                return res.output.first ?? ""
+            }
+        }
+        
+        var value : String {
+            return UserDefaults.standard.string(forKey: self.keyValue) ?? ""
+        }
+        
+        func setValue(_ value : String) {
+            UserDefaults.standard.setValue(value, forKey: self.keyValue)
+        }
+    }
+    
+    enum BooleanPreference : String, PersistablePreference {
         typealias ValueType = Bool
         
         case launchOnLogin
@@ -42,7 +74,7 @@ class Preferences {
         ]
         
         var keyValue : String {
-            return "com.shad.tomcatManagerPref." + self.rawValue
+            return kPreferenceStorageKeyPrefix + self.rawValue
         }
         
         var defaultValue : Bool {
@@ -79,7 +111,7 @@ class Preferences {
         ]
         
         var keyValue : String {
-            return "com.shad.tomcatManagerPref." + self.rawValue
+            return kPreferenceStorageKeyPrefix + self.rawValue
         }
         
         var defaultValue: Date? {
@@ -103,7 +135,7 @@ class Preferences {
     }
     
     fileprivate func allPreferences() -> [CanSetup] {
-        return DatePreference.all as [CanSetup] + BooleanPreference.all as [CanSetup]
+        return DatePreference.all as [CanSetup] + BooleanPreference.all as [CanSetup] + StringPreference.all as [CanSetup]
     }
     
     init() {
@@ -118,6 +150,4 @@ class Preferences {
     
     
 }
-
-extension Preferences.BooleanPreference : PersistablePreference { }
 
