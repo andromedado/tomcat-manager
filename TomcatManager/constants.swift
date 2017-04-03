@@ -33,6 +33,7 @@ enum Images {
     
     enum Indicator {
         static let off = #imageLiteral(resourceName: "emptyCircle")
+        static let present = #imageLiteral(resourceName: "filledCircle")
         static let good = #imageLiteral(resourceName: "greenCircle")
         static let loading = #imageLiteral(resourceName: "blueCircle")
         static let warning = #imageLiteral(resourceName: "yellowCircle")

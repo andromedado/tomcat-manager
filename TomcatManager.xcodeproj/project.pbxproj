@@ -23,6 +23,7 @@
 		73C68E5D1E902842006C8F9F /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E5B1E902842006C8F9F /* PreferencesController.swift */; };
 		73C68E5E1E902842006C8F9F /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C68E5C1E902842006C8F9F /* PreferencesController.xib */; };
 		73C68E601E902876006C8F9F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E5F1E902876006C8F9F /* Preferences.swift */; };
+		73C68E621E917293006C8F9F /* WebApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E611E917293006C8F9F /* WebApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +57,7 @@
 		73C68E5B1E902842006C8F9F /* PreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		73C68E5C1E902842006C8F9F /* PreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesController.xib; sourceTree = "<group>"; };
 		73C68E5F1E902876006C8F9F /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		73C68E611E917293006C8F9F /* WebApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				73C68E5B1E902842006C8F9F /* PreferencesController.swift */,
 				73C68E5C1E902842006C8F9F /* PreferencesController.xib */,
 				73C68E5F1E902876006C8F9F /* Preferences.swift */,
+				73C68E611E917293006C8F9F /* WebApp.swift */,
 			);
 			path = TomcatManager;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				730630091E8FE4A600556534 /* AppDelegate.swift in Sources */,
 				730630241E8FECF100556534 /* TomcatManager.swift in Sources */,
 				730630201E8FE7EB00556534 /* functions.swift in Sources */,
+				73C68E621E917293006C8F9F /* WebApp.swift in Sources */,
 				730630221E8FEA5E00556534 /* constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

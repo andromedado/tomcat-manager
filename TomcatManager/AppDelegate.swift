@@ -8,6 +8,27 @@
 
 import Cocoa
 
+enum MenuSections : Int {
+    case tomcat
+    case apps
+    case preferences
+    case quit
+    
+    static let all : [MenuSections] = {
+        var all : [MenuSections] = []
+        var i = 0
+        while let one = MenuSections(rawValue: i) {
+            all.append(one)
+            i += 1
+        }
+        return all
+    }()
+}
+
+enum MenuItemType : Int {
+    case root
+    case remove
+}
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     
@@ -17,11 +38,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var preferences : Preferences!
     var preferencesWindow : PreferencesController?
     
+    var webApps : [WebApp : [MenuItemType : NSMenuItem]] = [:]
+    
+    var tomcatMenuItem : NSMenuItem!
+    var updater : NSBackgroundActivityScheduler?
+    
     var tomcatUp : Bool = false {
         didSet {
             guard oldValue != self.tomcatUp else { return }
             self.statusItem.image = tomcatUp ? Images.Tomcat.color : Images.Tomcat.hollow
-            rebuildMenu()
+            updateMenu()
         }
     }
     
@@ -36,17 +62,73 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.preferences = Preferences()
         
-        rebuildMenu()
-        
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] (timer) in
+        let updater = NSBackgroundActivityScheduler(identifier: "com.shad.statusUpdater")
+        self.updater = updater
+        updater.repeats = true
+        updater.interval = 1.0
+        updater.tolerance = 0.5
+        updater.qualityOfService = QualityOfService.background
+        updater.schedule { [weak self, weak updater] (completion) in
+            print("goooo")
+            guard !(updater?.shouldDefer ?? false) else {
+                completion(.deferred)
+                return
+            }
             guard let strongSelf = self else {
-                timer.invalidate()
+                completion(.finished)
+                updater?.invalidate()
                 return
             }
             strongSelf.update()
+            completion(.finished)
         }
         
         self.manager = TomcatManager()
+        
+        WebApp.scan().forEach({ (app) in
+            
+            //
+            
+            app.updateState()
+            let item = NSMenuItem(webApp: app, tomcatIsUp: self.tomcatUp)
+            let submenu = NSMenu()
+            item.submenu = submenu
+            let removalItem = NSMenuItem(title: "remove", action: nil, keyEquivalent: "")
+            removalItem.target = app
+            removalItem.action = #selector(WebApp.remove)
+            submenu.addItem(removalItem)
+            webApps[app] = [
+                .root : item,
+                .remove : removalItem
+            ]
+            app.delegate = self
+        })
+        
+        let menu = NSMenu()
+        
+        MenuSections.all.forEach({(section) in
+            switch section {
+            case .tomcat:
+                self.tomcatMenuItem = NSMenuItem(title: "", action: nil, keyEquivalent: "s")
+                self.updateTomcatItem()
+                menu.addItem(self.tomcatMenuItem)
+                menu.addItem(NSMenuItem.separator())
+            case .apps:
+                if self.webApps.count > 0 {
+                    self.webApps.values.forEach({ (items) in
+                        menu.addItem(items[.root]!)
+                    })
+                    menu.addItem(NSMenuItem.separator())
+                }
+            case .preferences:
+                menu.addItem(NSMenuItem(title: "Preferences", action: #selector(AppDelegate.launchPreferences), keyEquivalent: "p"))
+                menu.addItem(NSMenuItem.separator())
+            case .quit:
+                menu.addItem(NSMenuItem(title: "Quit Manager", action: #selector(AppDelegate.terminate), keyEquivalent: "q"))
+            }
+        })
+        
+        statusItem.menu = menu
         
         update()
         
@@ -63,22 +145,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func update() {
         guard let manager = manager else { return }
         tomcatUp = manager.isRunning()
+        self.webApps.forEach({ (app, item) in
+            app.updateState()
+            self.updateWebAppItem(app)
+        })
     }
     
-    func rebuildMenu() {
-        let menu = NSMenu()
-        
-        if self.tomcatUp {
-            menu.addItem(NSMenuItem(title: "Stop Tomcat", action: #selector(AppDelegate.stopTomcat), keyEquivalent: "s"))
+    func updateMenu() {
+        self.updateTomcatItem()
+        self.webApps.keys.forEach { self.updateWebAppItem($0) }
+    }
+    
+    func updateWebAppItem(_ webApp : WebApp) {
+        guard let items = webApps[webApp] else { return }
+        if webApp.isDeployed {
+            items[.remove]?.target = webApp
+            items[.remove]?.action = #selector(WebApp.remove)
         } else {
-            menu.addItem(NSMenuItem(title: "Start Tomcat", action: #selector(AppDelegate.startTomcat), keyEquivalent: "t"))
+            items[.remove]?.target = nil
+            items[.remove]?.action = nil
         }
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Preferences", action: #selector(AppDelegate.launchPreferences), keyEquivalent: "p"))
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit Manager", action: #selector(AppDelegate.terminate), keyEquivalent: "q"))
-        
-        statusItem.menu = menu
+        items[.root]?.updateWithApp(webApp: webApp, tomcatIsUp: self.tomcatUp)
+    }
+    
+    func updateTomcatItem() {
+        if self.tomcatUp {
+            self.tomcatMenuItem.title = "Stop Tomcat"
+            self.tomcatMenuItem.action = #selector(AppDelegate.stopTomcat)
+        } else {
+            self.tomcatMenuItem.title = "Start Tomcat"
+            self.tomcatMenuItem.action = #selector(AppDelegate.startTomcat)
+        }
     }
     
     func startTomcat() {
@@ -108,3 +205,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
+extension AppDelegate : WebAppDelegate {
+    func wasRemoved(_ webApp: WebApp) {
+        self.updateWebAppItem(webApp)
+    }
+}
+
+extension NSMenuItem {
+    convenience init(webApp : WebApp, tomcatIsUp : Bool) {
+        self.init()
+        self.updateWithApp(webApp: webApp, tomcatIsUp: tomcatIsUp)
+    }
+    
+    func updateWithApp(webApp : WebApp, tomcatIsUp : Bool) {
+        self.title = webApp.name
+        if webApp.isDeployed {
+            if tomcatIsUp {
+                if webApp.isExtracted {
+                    self.image = Images.Indicator.good
+                } else {
+                    self.image = Images.Indicator.loading
+                }
+            } else {
+                self.image = Images.Indicator.present
+            }
+        } else {
+            self.image = Images.Indicator.off
+        }
+    }
+}
