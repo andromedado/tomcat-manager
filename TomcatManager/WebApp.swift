@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Kanna
 
 protocol WebAppDelegate : class {
     func wasRemoved(_ webApp: WebApp)
@@ -19,6 +20,7 @@ class WebApp {
     let finalName : String
 
     var pomPath : String?
+    var version : String?
 
     var isDeployed : Bool = false
     var isExtracted : Bool = false
@@ -31,6 +33,11 @@ class WebApp {
         } else {
             self.finalName = finalName
         }
+    }
+
+    func absorb(_ other : WebApp) {
+        self.pomPath = self.pomPath ?? other.pomPath
+        self.version = self.version ?? other.version
     }
     
     var name : String {
@@ -70,41 +77,42 @@ class WebApp {
         }
         let (output, _, _) = runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml")
 
-        let parseDelegate = SimpleXMLParseDelegate()
-
-        parseDelegate.completion = {(product) in
-            print("finished building:\n\(parseDelegate.id ?? "no name")\n\(jsonify(product))")
-            print("oh yeah!")
-        }
-
         output.forEach({(pomPath) in
 
-            var maybeData : Data?
+            var maybeXMLString : String?
             do {
-                maybeData = try String(contentsOfFile: pomPath).replacingOccurrences(of: "\\:", with: ":").data(using: .utf8)
+                maybeXMLString = try String(contentsOfFile: pomPath)
             } catch {
                 print("bad pom? \(pomPath)")
                 return
             }
 
-            guard let data = maybeData else {
+            guard let xmlString = maybeXMLString else {
                 print("unable to build parser")
                 return
             }
-            let parser = XMLParser(data: data)
 
-            parser.delegate = parseDelegate
-            parseDelegate.id = pomPath
-
-            guard parser.parse() else {
-                print("unable to parse xml")
-                if let err = parser.parserError {
-                    print("\(err)")
-                }
+            guard let xml = Kanna.XML(xml:xmlString, encoding: .utf8) else {
+                print("unable to parse doc into Kanna.XMLDoc")
                 return
             }
 
-            print("DONE?")
+            let namespaces : [String:String] = [
+                "pom" : "http://maven.apache.org/POM/4.0.0"
+            ]
+
+            let packaging = xml.at_xpath("//pom:packaging", namespaces:namespaces)?.text ?? ""
+            let maybeVersion = xml.at_xpath("//pom:version", namespaces:namespaces)?.text
+            let maybeFinalName = xml.at_xpath("//pom:finalName", namespaces:namespaces)?.text
+
+            guard packaging == "war",
+                let version = maybeVersion,
+                let finalName = maybeFinalName else { return }
+
+            let app = WebApp(finalName: finalName)
+            app.version = version
+            app.pomPath = pomPath
+            apps.append(app)
         })
 
         return apps

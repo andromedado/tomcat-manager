@@ -75,24 +75,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.manager = TomcatManager()
 
-        WebApp.scanPoms()
-        
-        WebApp.scanWebAppsDir().forEach({ (app) in
-            
-            //
-            
+        let pomApps = WebApp.scanPoms()
+        let deployedApps = WebApp.scanWebAppsDir()
+
+        var finalApps : [WebApp] = pomApps
+
+        deployedApps.forEach({(app) in
+            if let idx = finalApps.index(of: app) {
+                //exists already
+                finalApps[idx].absorb(app)
+            } else {
+                finalApps.append(app)
+            }
+        })
+
+        finalApps.forEach({ (app) in
             app.updateState()
+
             let item = NSMenuItem(webApp: app, tomcatIsUp: self.tomcatUp)
+
             let submenu = NSMenu()
             item.submenu = submenu
+
             let removalItem = NSMenuItem(title: "remove", action: nil, keyEquivalent: "")
             removalItem.target = app
             removalItem.action = #selector(WebApp.remove)
             submenu.addItem(removalItem)
+
             webApps[app] = [
                 .root : item,
                 .remove : removalItem
             ]
+
             app.delegate = self
         })
         
