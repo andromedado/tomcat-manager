@@ -42,7 +42,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        NSWorkspace.shared().runningApplications.forEach { print($0.bundleIdentifier ?? "") }
 //        print("done?")
     }
-    
+
+//    @objc
     func terminate() -> Never {
         NSApp.terminate(nil)
         exit(0)

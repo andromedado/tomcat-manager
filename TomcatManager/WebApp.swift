@@ -15,12 +15,16 @@ protocol WebAppDelegate : class {
 class WebApp {
     
     weak var delegate : WebAppDelegate?
-    
+
     let finalName : String
+
+    var pomPath : String?
+
     var isDeployed : Bool = false
     var isExtracted : Bool = false
     var isUp : Bool = false
-    
+    var isBuilt : Bool = false
+
     init(finalName : String) {
         if finalName.contains(".war") {
             self.finalName = finalName.replacingOccurrences(of: ".war", with: "")
@@ -57,8 +61,56 @@ class WebApp {
             self.delegate?.wasRemoved(self)
         }
     }
-    
-    static func scan() -> [WebApp] {
+
+    static func scanPoms() -> [WebApp] {
+        let pomDir = Preferences.StringPreference.repositoryRoot.value
+        var apps : [WebApp] = []
+        guard pomDir.lengthOfBytes(using: .utf8) > 0 else {
+            return apps
+        }
+        let (output, _, _) = runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml")
+
+        let parseDelegate = SimpleXMLParseDelegate()
+
+        parseDelegate.completion = {(product) in
+            print("finished building:\n\(parseDelegate.id ?? "no name")\n\(jsonify(product))")
+            print("oh yeah!")
+        }
+
+        output.forEach({(pomPath) in
+
+            var maybeData : Data?
+            do {
+                maybeData = try String(contentsOfFile: pomPath).replacingOccurrences(of: "\\:", with: ":").data(using: .utf8)
+            } catch {
+                print("bad pom? \(pomPath)")
+                return
+            }
+
+            guard let data = maybeData else {
+                print("unable to build parser")
+                return
+            }
+            let parser = XMLParser(data: data)
+
+            parser.delegate = parseDelegate
+            parseDelegate.id = pomPath
+
+            guard parser.parse() else {
+                print("unable to parse xml")
+                if let err = parser.parserError {
+                    print("\(err)")
+                }
+                return
+            }
+
+            print("DONE?")
+        })
+
+        return apps
+    }
+
+    static func scanWebAppsDir() -> [WebApp] {
         let path : String = [
             Preferences.StringPreference.catalinaHome.value,
             "webapps",

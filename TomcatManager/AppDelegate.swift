@@ -62,30 +62,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.preferences = Preferences()
         
-        let updater = NSBackgroundActivityScheduler(identifier: "com.shad.statusUpdater")
-        self.updater = updater
-        updater.repeats = true
-        updater.interval = 1.0
-        updater.tolerance = 0.5
-        updater.qualityOfService = QualityOfService.background
-        updater.schedule { [weak self, weak updater] (completion) in
-            print("goooo")
-            guard !(updater?.shouldDefer ?? false) else {
-                completion(.deferred)
-                return
+        self.scheduleUpdate { [weak self] (completion) in
+            defer {
+                completion?()
             }
             guard let strongSelf = self else {
-                completion(.finished)
-                updater?.invalidate()
                 return
             }
             strongSelf.update()
-            completion(.finished)
         }
-        
+
+
         self.manager = TomcatManager()
+
+        WebApp.scanPoms()
         
-        WebApp.scan().forEach({ (app) in
+        WebApp.scanWebAppsDir().forEach({ (app) in
             
             //
             
@@ -140,6 +132,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if Preferences.BooleanPreference.showAtLaunch.value {
             self.launchPreferences()
         }
+    }
+
+    func scheduleUpdate(_ block : @escaping (_ completion : (() -> Void)?) -> Void) {
+//        let timer = Timer(timeInterval: 1.5, repeats: true) { (timer) in
+//        }
+//
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { (timer) in
+            block(nil)
+        }
+
+        timer.tolerance = 0.5
+        //
+
+//        let updater = NSBackgroundActivityScheduler(identifier: "com.shad.statusUpdater")
+//        self.updater = updater
+//        updater.repeats = true
+//        updater.interval = 1.0
+//        updater.tolerance = 0.5
+//        updater.qualityOfService = QualityOfService.background
+//        updater.schedule { (completion) in
+//            block {
+//                completion(.finished)
+//            }
+//        }
+
     }
     
     func update() {

@@ -9,7 +9,7 @@
 import Foundation
 import ServiceManagement
 
-fileprivate let kPreferenceStorageKeyPrefix = "com.shad.tomcatManagerPrefs."
+fileprivate let kPreferenceStorageKeyPrefix = "com.shad.tomcatPrefs."
 
 fileprivate protocol CanSetup {
     func setup()
@@ -36,9 +36,11 @@ class Preferences {
         typealias ValueType = String
         
         case catalinaHome
+        case repositoryRoot
         
         static let all : [StringPreference] = [
-            .catalinaHome
+            .catalinaHome,
+            .repositoryRoot
         ]
         
         var keyValue : String {
@@ -50,6 +52,12 @@ class Preferences {
             case .catalinaHome:
                 let res = runCommandAsUser(command: "echo $CATALINA_HOME")
                 return res.output.first ?? ""
+            case .repositoryRoot:
+                let res = runCommandAsUser(command: "echo $HOME")
+                if let dir = res.output.first {
+                    return dir + "/projects"
+                }
+                return ""
             }
         }
         

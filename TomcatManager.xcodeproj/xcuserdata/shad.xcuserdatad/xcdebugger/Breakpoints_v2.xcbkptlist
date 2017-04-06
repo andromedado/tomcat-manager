@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TomcatManager/AppDelegate.swift"
-            timestampString = "512884870.922517"
+            filePath = "TomcatManager/WebApp.swift"
+            timestampString = "513039515.540206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "applicationDidFinishLaunching(_:)"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "scanPoms()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

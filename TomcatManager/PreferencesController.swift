@@ -16,15 +16,15 @@ class PreferencesController: NSWindowController {
     @IBOutlet weak var showAtLaunchConfig: NSButton!
     @IBOutlet weak var catalinaHome: NSTextField!
     @IBOutlet weak var bgButton: NSButton!
-    @IBOutlet weak var checkmarkView: NSImageView!
+    @IBOutlet weak var catalinaDirValidImage: NSImageView!
     @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var repositoryRootInput: NSTextField!
+    @IBOutlet weak var repositoryValidImage: NSImageView!
     
     var preferences : Preferences!
     
     fileprivate var data : [DataType] = [
-        ("test", "TEST"),
-        ("", ""),
-        ("Ztest", "dTEST")
+        ("test", "TEST")
     ]
     
     static func build(withPref prefs: Preferences) -> PreferencesController {
@@ -43,14 +43,27 @@ class PreferencesController: NSWindowController {
         self.launchAtLoginConfig.state = Preferences.BooleanPreference.launchOnLogin.value ? NSOnState : NSOffState
         self.showAtLaunchConfig.state = Preferences.BooleanPreference.showAtLaunch.value ? NSOnState : NSOffState
         self.catalinaHome.stringValue = Preferences.StringPreference.catalinaHome.value
+        self.repositoryRootInput.stringValue = Preferences.StringPreference.repositoryRoot.value
         
         self.updateCatalinaHomeValidity()
+        self.updateRepositoryRootValidity()
     }
     
     func updateCatalinaHomeValidity() {
         let (stdout, stderr, _) = runCommandAsUser(command: "stat \"\(catalinaHome.stringValue)/bin/startup.sh\"")
         let good = stdout.count > 0 && stderr.count == 0
-        self.checkmarkView.isHidden = !good
+        self.catalinaDirValidImage.isHidden = !good
+    }
+
+    func updateRepositoryRootValidity() {
+        guard repositoryRootInput.stringValue.lengthOfBytes(using: String.Encoding.utf8) > 10 else {
+            self.repositoryValidImage.isHidden = true
+            return
+        }
+
+        let (stdout, stderr, _) = runCommandAsUser(command: "find \"\(repositoryRootInput.stringValue)\" -type f -name pom.xml")
+        let good = stdout.count > 0 && stderr.count == 0
+        self.repositoryValidImage.isHidden = !good
     }
     
     @IBAction func action(_ sender: Any) {
@@ -74,7 +87,15 @@ class PreferencesController: NSWindowController {
 extension PreferencesController : NSTextFieldDelegate {
 
     override func controlTextDidChange(_ obj: Notification) {
-        self.updateCatalinaHomeValidity()
+        guard let sender = obj.object as? NSControl else { return }
+        switch sender {
+        case self.catalinaHome:
+            self.updateCatalinaHomeValidity()
+        case self.repositoryRootInput:
+            self.updateRepositoryRootValidity()
+        default:
+            ()
+        }
     }
     
 }

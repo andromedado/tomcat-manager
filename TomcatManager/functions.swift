@@ -16,6 +16,20 @@ func appIsRunning(bundleIdentifier : String) -> Bool {
 
 typealias ShellResponse = (output: [String], error: [String], exitCode: Int32)
 
+extension String {
+    func cleanedOfEscapeSequences() -> String {
+        let escapeCharacter = "\u{1B}"
+        if self.contains(escapeCharacter) {
+            return self.replacingOccurrences(of: "\(escapeCharacter)[\\S]{0,2}", with: "", options: String.CompareOptions.regularExpression)
+        }
+        return self
+    }
+
+    var shellOutputCleaned : String {
+        return self.trimmingCharacters(in: .newlines).cleanedOfEscapeSequences()
+    }
+}
+
 @discardableResult
 func runCommand(cmd : String, silent : Bool = false, args : String...) -> ShellResponse {
     
@@ -32,18 +46,18 @@ func runCommand(cmd : String, silent : Bool = false, args : String...) -> ShellR
     task.standardError = errpipe
     
     task.launch()
-    
+
     let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
     if var string = String(data: outdata, encoding: .utf8) {
-        string = string.trimmingCharacters(in: .newlines)
+        string = string.shellOutputCleaned
         if string.characters.count > 0 {
             output = string.components(separatedBy: "\n")
         }
     }
-    
+
     let errdata = errpipe.fileHandleForReading.readDataToEndOfFile()
     if var string = String(data: errdata, encoding: .utf8) {
-        string = string.trimmingCharacters(in: .newlines)
+        string = string.shellOutputCleaned
         if string.characters.count > 0 {
             error = string.components(separatedBy: "\n")
         }
@@ -53,6 +67,7 @@ func runCommand(cmd : String, silent : Bool = false, args : String...) -> ShellR
     let status = task.terminationStatus
     
     if !silent {
+        print("cmd: \n\(args.joined(separator: " "))")
         print("stdout:\n\(output.joined(separator:"\n"))\n")
         print("stderr:\n\(error.joined(separator:"\n"))")
     }

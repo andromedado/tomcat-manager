@@ -20,6 +20,8 @@
 		7323EA8B1E9009FF004CCA6A /* Launcher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7323EA7B1E9009BB004CCA6A /* Launcher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7323EA8C1E900A9F004CCA6A /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630211E8FEA5E00556534 /* constants.swift */; };
 		7323EA8D1E900B18004CCA6A /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306301F1E8FE7EB00556534 /* functions.swift */; };
+		733CBB0A1E945490000DAC22 /* PomParsingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733CBB091E945490000DAC22 /* PomParsingDelegate.swift */; };
+		73808C9E1E92F8DE00F3419C /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73808C9D1E92F8DE00F3419C /* functions.m */; };
 		73C68E5D1E902842006C8F9F /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E5B1E902842006C8F9F /* PreferencesController.swift */; };
 		73C68E5E1E902842006C8F9F /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C68E5C1E902842006C8F9F /* PreferencesController.xib */; };
 		73C68E601E902876006C8F9F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E5F1E902876006C8F9F /* Preferences.swift */; };
@@ -54,6 +56,10 @@
 		7323EA811E9009BB004CCA6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7323EA841E9009BB004CCA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7323EA861E9009BB004CCA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		733CBB091E945490000DAC22 /* PomParsingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PomParsingDelegate.swift; sourceTree = "<group>"; };
+		73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TomcatManager-Bridging-Header.h"; sourceTree = "<group>"; };
+		73808C9C1E92F8DE00F3419C /* functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
+		73808C9D1E92F8DE00F3419C /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
 		73C68E5B1E902842006C8F9F /* PreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		73C68E5C1E902842006C8F9F /* PreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesController.xib; sourceTree = "<group>"; };
 		73C68E5F1E902876006C8F9F /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -101,6 +107,8 @@
 		730630071E8FE4A600556534 /* TomcatManager */ = {
 			isa = PBXGroup;
 			children = (
+				73808C9C1E92F8DE00F3419C /* functions.h */,
+				73808C9D1E92F8DE00F3419C /* functions.m */,
 				730630081E8FE4A600556534 /* AppDelegate.swift */,
 				7306301F1E8FE7EB00556534 /* functions.swift */,
 				730630231E8FECF100556534 /* TomcatManager.swift */,
@@ -112,6 +120,8 @@
 				73C68E5C1E902842006C8F9F /* PreferencesController.xib */,
 				73C68E5F1E902876006C8F9F /* Preferences.swift */,
 				73C68E611E917293006C8F9F /* WebApp.swift */,
+				73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */,
+				733CBB091E945490000DAC22 /* PomParsingDelegate.swift */,
 			);
 			path = TomcatManager;
 			sourceTree = "<group>";
@@ -186,6 +196,7 @@
 					730630041E8FE4A600556534 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 6838XAF5Q4;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					7323EA7A1E9009BB004CCA6A = {
@@ -240,6 +251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				733CBB0A1E945490000DAC22 /* PomParsingDelegate.swift in Sources */,
 				73C68E5D1E902842006C8F9F /* PreferencesController.swift in Sources */,
 				73C68E601E902876006C8F9F /* Preferences.swift in Sources */,
 				7306301E1E8FE67200556534 /* main.swift in Sources */,
@@ -247,6 +259,7 @@
 				730630241E8FECF100556534 /* TomcatManager.swift in Sources */,
 				730630201E8FE7EB00556534 /* functions.swift in Sources */,
 				73C68E621E917293006C8F9F /* WebApp.swift in Sources */,
+				73808C9E1E92F8DE00F3419C /* functions.m in Sources */,
 				730630221E8FEA5E00556534 /* constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,12 +385,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 6838XAF5Q4;
 				INFOPLIST_FILE = TomcatManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shaddowney.TomcatManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TomcatManager/TomcatManager-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -387,12 +403,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 6838XAF5Q4;
 				INFOPLIST_FILE = TomcatManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shaddowney.TomcatManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TomcatManager/TomcatManager-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
