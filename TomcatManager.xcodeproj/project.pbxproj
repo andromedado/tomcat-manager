@@ -7,35 +7,76 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		732158F81E96D79D0097AFC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732158F71E96D79D0097AFC5 /* AppDelegate.swift */; };
+		732158FA1E96D79D0097AFC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732158F91E96D79D0097AFC5 /* ViewController.swift */; };
+		732158FC1E96D79D0097AFC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 732158FB1E96D79D0097AFC5 /* Assets.xcassets */; };
+		732158FF1E96D79D0097AFC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 732158FD1E96D79D0097AFC5 /* Main.storyboard */; };
 		732B94F11E8EF7EB0053616D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B94F01E8EF7EB0053616D /* AppDelegate.swift */; };
 		732B94F31E8EF7EB0053616D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 732B94F21E8EF7EB0053616D /* Assets.xcassets */; };
 		732B94F61E8EF7EB0053616D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 732B94F41E8EF7EB0053616D /* MainMenu.xib */; };
+		732B95001E8F0A0A0053616D /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 732B94FF1E8F0A0A0053616D /* functions.m */; };
+		D63D9D328F1E23AD769111FF /* Pods_TomcatManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79595DC4ECD680D1703E1469 /* Pods_TomcatManager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1DCDD11337AEF545C1FA1474 /* Pods-TomcatManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TomcatManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TomcatManager/Pods-TomcatManager.debug.xcconfig"; sourceTree = "<group>"; };
+		732158F51E96D79D0097AFC5 /* Launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Launcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		732158F71E96D79D0097AFC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		732158F91E96D79D0097AFC5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		732158FB1E96D79D0097AFC5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		732158FE1E96D79D0097AFC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		732159001E96D79D0097AFC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		732B94ED1E8EF7EB0053616D /* TomcatManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TomcatManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		732B94F01E8EF7EB0053616D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		732B94F21E8EF7EB0053616D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		732B94F51E8EF7EB0053616D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		732B94F71E8EF7EB0053616D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		732B94FD1E8F0A090053616D /* TomcatManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TomcatManager-Bridging-Header.h"; sourceTree = "<group>"; };
+		732B94FE1E8F0A0A0053616D /* functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
+		732B94FF1E8F0A0A0053616D /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
+		79595DC4ECD680D1703E1469 /* Pods_TomcatManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TomcatManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1B7435BE59373B384F85E35 /* Pods-TomcatManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TomcatManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-TomcatManager/Pods-TomcatManager.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		732B94EA1E8EF7EB0053616D /* Frameworks */ = {
+		732158F21E96D79D0097AFC5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		732B94EA1E8EF7EB0053616D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D63D9D328F1E23AD769111FF /* Pods_TomcatManager.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		732158F61E96D79D0097AFC5 /* Launcher */ = {
+			isa = PBXGroup;
+			children = (
+				732158F71E96D79D0097AFC5 /* AppDelegate.swift */,
+				732158F91E96D79D0097AFC5 /* ViewController.swift */,
+				732158FB1E96D79D0097AFC5 /* Assets.xcassets */,
+				732158FD1E96D79D0097AFC5 /* Main.storyboard */,
+				732159001E96D79D0097AFC5 /* Info.plist */,
+			);
+			path = Launcher;
+			sourceTree = "<group>";
+		};
 		732B94E41E8EF7EB0053616D = {
 			isa = PBXGroup;
 			children = (
 				732B94EF1E8EF7EB0053616D /* TomcatManager */,
+				732158F61E96D79D0097AFC5 /* Launcher */,
 				732B94EE1E8EF7EB0053616D /* Products */,
+				BEEE5DD9ABDB957A07ABB42E /* Pods */,
+				B89B06BA7B282E47157A13A2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				732B94ED1E8EF7EB0053616D /* TomcatManager.app */,
+				732158F51E96D79D0097AFC5 /* Launcher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -50,24 +92,64 @@
 		732B94EF1E8EF7EB0053616D /* TomcatManager */ = {
 			isa = PBXGroup;
 			children = (
+				732B94FE1E8F0A0A0053616D /* functions.h */,
+				732B94FF1E8F0A0A0053616D /* functions.m */,
 				732B94F01E8EF7EB0053616D /* AppDelegate.swift */,
 				732B94F21E8EF7EB0053616D /* Assets.xcassets */,
 				732B94F41E8EF7EB0053616D /* MainMenu.xib */,
 				732B94F71E8EF7EB0053616D /* Info.plist */,
+				732B94FD1E8F0A090053616D /* TomcatManager-Bridging-Header.h */,
 			);
 			path = TomcatManager;
+			sourceTree = "<group>";
+		};
+		B89B06BA7B282E47157A13A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79595DC4ECD680D1703E1469 /* Pods_TomcatManager.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BEEE5DD9ABDB957A07ABB42E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1DCDD11337AEF545C1FA1474 /* Pods-TomcatManager.debug.xcconfig */,
+				C1B7435BE59373B384F85E35 /* Pods-TomcatManager.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		732158F41E96D79D0097AFC5 /* Launcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 732159031E96D79D0097AFC5 /* Build configuration list for PBXNativeTarget "Launcher" */;
+			buildPhases = (
+				732158F11E96D79D0097AFC5 /* Sources */,
+				732158F21E96D79D0097AFC5 /* Frameworks */,
+				732158F31E96D79D0097AFC5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Launcher;
+			productName = Launcher;
+			productReference = 732158F51E96D79D0097AFC5 /* Launcher.app */;
+			productType = "com.apple.product-type.application";
+		};
 		732B94EC1E8EF7EB0053616D /* TomcatManager */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 732B94FA1E8EF7EB0053616D /* Build configuration list for PBXNativeTarget "TomcatManager" */;
 			buildPhases = (
+				FFB869B29790ED0BB97A0409 /* [CP] Check Pods Manifest.lock */,
 				732B94E91E8EF7EB0053616D /* Sources */,
 				732B94EA1E8EF7EB0053616D /* Frameworks */,
 				732B94EB1E8EF7EB0053616D /* Resources */,
+				819AE80E6E90C4E7166F7096 /* [CP] Embed Pods Frameworks */,
+				5474EC87103DC381281FD4AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -84,13 +166,19 @@
 		732B94E51E8EF7EB0053616D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Shad Downey";
 				TargetAttributes = {
+					732158F41E96D79D0097AFC5 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = KTWP79UZ95;
+						ProvisioningStyle = Automatic;
+					};
 					732B94EC1E8EF7EB0053616D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = KTWP79UZ95;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -109,11 +197,21 @@
 			projectRoot = "";
 			targets = (
 				732B94EC1E8EF7EB0053616D /* TomcatManager */,
+				732158F41E96D79D0097AFC5 /* Launcher */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		732158F31E96D79D0097AFC5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				732158FC1E96D79D0097AFC5 /* Assets.xcassets in Resources */,
+				732158FF1E96D79D0097AFC5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		732B94EB1E8EF7EB0053616D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -125,18 +223,84 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5474EC87103DC381281FD4AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TomcatManager/Pods-TomcatManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		819AE80E6E90C4E7166F7096 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TomcatManager/Pods-TomcatManager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFB869B29790ED0BB97A0409 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		732158F11E96D79D0097AFC5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				732158FA1E96D79D0097AFC5 /* ViewController.swift in Sources */,
+				732158F81E96D79D0097AFC5 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		732B94E91E8EF7EB0053616D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				732B94F11E8EF7EB0053616D /* AppDelegate.swift in Sources */,
+				732B95001E8F0A0A0053616D /* functions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		732158FD1E96D79D0097AFC5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				732158FE1E96D79D0097AFC5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		732B94F41E8EF7EB0053616D /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -148,6 +312,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		732159011E96D79D0097AFC5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = KTWP79UZ95;
+				INFOPLIST_FILE = Launcher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.1stdibs.utils.Launcher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		732159021E96D79D0097AFC5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = KTWP79UZ95;
+				INFOPLIST_FILE = Launcher/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.1stdibs.utils.Launcher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		732B94F81E8EF7EB0053616D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -240,28 +434,35 @@
 		};
 		732B94FB1E8EF7EB0053616D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DCDD11337AEF545C1FA1474 /* Pods-TomcatManager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = KTWP79UZ95;
 				INFOPLIST_FILE = TomcatManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.1stdibs.utils.TomcatManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TomcatManager/TomcatManager-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		732B94FC1E8EF7EB0053616D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1B7435BE59373B384F85E35 /* Pods-TomcatManager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = KTWP79UZ95;
 				INFOPLIST_FILE = TomcatManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.1stdibs.utils.TomcatManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TomcatManager/TomcatManager-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -269,6 +470,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		732159031E96D79D0097AFC5 /* Build configuration list for PBXNativeTarget "Launcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				732159011E96D79D0097AFC5 /* Debug */,
+				732159021E96D79D0097AFC5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		732B94E81E8EF7EB0053616D /* Build configuration list for PBXProject "TomcatManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -285,6 +494,7 @@
 				732B94FC1E8EF7EB0053616D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

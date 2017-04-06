@@ -4,25 +4,29 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Launcher.xcscheme</key>
+		<key>Kanna.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
-		<key>TomcatManager.xcscheme</key>
+		<key>Pods-TomcatManager.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>732158F41E96D79D0097AFC5</key>
+		<key>00604100063A3AF52DB6D30EB670EB73</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>732B94EC1E8EF7EB0053616D</key>
+		<key>4D10E4FF5A483B852B47CCA0B994E340</key>
 		<dict>
 			<key>primary</key>
 			<true/>
