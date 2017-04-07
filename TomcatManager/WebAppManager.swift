@@ -32,11 +32,31 @@ enum MenuItemType : Int {
         }
     }
 
-    fileprivate func update(menuItem : NSMenuItem, withWebApp webApp : WebApp) {
+    fileprivate func update(menuItem : NSMenuItem, withWebApp webApp : WebApp, tomcatIsUp : Bool) {
         var selector : Selector? = nil
         switch self {
         case .root:
-            ()
+            menuItem.title = webApp.name
+            if webApp.isDeployed {
+                if tomcatIsUp {
+                    if webApp.isExtracted {
+                        menuItem.image = Images.Indicator.good
+                    } else {
+                        menuItem.image = Images.Indicator.loading
+                    }
+                } else {
+                    menuItem.image = Images.Indicator.present
+                }
+            } else {
+                if webApp.isBuilding {
+                    menuItem.image = Images.Indicator.warning
+                } else if webApp.hasLogs {
+                    menuItem.image = Images.Indicator.error
+                } else {
+                    menuItem.image = Images.Indicator.off
+                }
+            }
+            return
         case .logs:
             if webApp.hasLogs {
                 selector = #selector(WebApp.openLogs)
@@ -76,14 +96,10 @@ enum MenuItemType : Int {
         }
     }
 
-    static let submenuTypes : [MenuItemType] = {
+    static let all : [MenuItemType] = {
         var types : [MenuItemType] = []
-        var i = 0
-        while let type = MenuItemType(rawValue: i) {
-            if type.belongsOnSubmenu {
-                types.append(type)
-            }
-            i += 1
+        while let type = MenuItemType(rawValue: types.count) {
+            types.append(type)
         }
         return types
     }()
@@ -140,24 +156,21 @@ class WebAppManager : NSObject {
         finalApps.forEach({ (app) in
             app.updateState()
 
+            var allItems : [MenuItemType : NSMenuItem] = [:]
             let submenu = NSMenu()
 
-            var allItems : [MenuItemType : NSMenuItem] = [:]
-
-            MenuItemType.submenuTypes.forEach {(type) in
+            MenuItemType.all.forEach {(type) in
                 let item = NSMenuItem(title: type.name, action: nil, keyEquivalent: "")
                 allItems[type] = item
-                submenu.addItem(item)
+                if type.belongsOnSubmenu {
+                    submenu.addItem(item)
+                }
                 if type.wantsSeparator {
                     submenu.addItem(NSMenuItem.separator())
                 }
             }
 
-            let item = NSMenuItem(webApp: app, tomcatIsUp: self.tomcatUp)
-
-            item.submenu = submenu
-
-            allItems[.root] = item
+            allItems[.root]!.submenu = submenu
 
             webApps[app] = allItems
             
@@ -183,9 +196,8 @@ class WebAppManager : NSObject {
         guard let items = webApps[webApp] else { return }
         onMain {
             for (type, item) in items {
-                type.update(menuItem: item, withWebApp: webApp)
+                type.update(menuItem: item, withWebApp: webApp, tomcatIsUp: self.tomcatUp)
             }
-            items[.root]?.updateWithApp(webApp: webApp, tomcatIsUp: self.tomcatUp)
         }
     }
 
@@ -196,36 +208,4 @@ extension WebAppManager : WebAppDelegate {
         self.updateWebAppItem(webApp)
     }
 }
-
-
-extension NSMenuItem {
-    convenience init(webApp : WebApp, tomcatIsUp : Bool) {
-        self.init()
-        self.updateWithApp(webApp: webApp, tomcatIsUp: tomcatIsUp)
-    }
-
-    func updateWithApp(webApp : WebApp, tomcatIsUp : Bool) {
-        self.title = webApp.name
-        if webApp.isDeployed {
-            if tomcatIsUp {
-                if webApp.isExtracted {
-                    self.image = Images.Indicator.good
-                } else {
-                    self.image = Images.Indicator.loading
-                }
-            } else {
-                self.image = Images.Indicator.present
-            }
-        } else {
-            if webApp.isBuilding {
-                self.image = Images.Indicator.warning
-            } else if webApp.hasLogs {
-                self.image = Images.Indicator.error
-            } else {
-                self.image = Images.Indicator.off
-            }
-        }
-    }
-}
-
 
