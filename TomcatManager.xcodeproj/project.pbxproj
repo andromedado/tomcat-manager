@@ -145,10 +145,10 @@
 				73C68E5B1E902842006C8F9F /* PreferencesController.swift */,
 				73C68E5C1E902842006C8F9F /* PreferencesController.xib */,
 				73C68E5F1E902876006C8F9F /* Preferences.swift */,
+				73803E161E96F3AD00744759 /* WebAppManager.swift */,
 				73C68E611E917293006C8F9F /* WebApp.swift */,
 				73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */,
 				733CBB091E945490000DAC22 /* PomParsingDelegate.swift */,
-				73803E161E96F3AD00744759 /* WebAppManager.swift */,
 				73803E181E97ECF800744759 /* EnvManager.swift */,
 			);
 			path = TomcatManager;

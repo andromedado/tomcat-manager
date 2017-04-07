@@ -53,6 +53,13 @@ class EnvManager {
             guard oldValue != currentEnv else { return }
             onMain {
                 self.menuItem.title = "\(kBaseName) - \(self.currentEnv)"
+                self.availableEnvironments.forEach({(env) in
+                    if env.name == self.currentEnv {
+                        env.menuItem.image = #imageLiteral(resourceName: "check")
+                    } else {
+                        env.menuItem.image = #imageLiteral(resourceName: "emptyCheck")
+                    }
+                })
             }
         }
     }

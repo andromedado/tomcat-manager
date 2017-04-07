@@ -10,6 +10,85 @@ import Cocoa
 
 fileprivate let kSharedManager = WebAppManager()
 
+enum MenuItemType : Int {
+    case root
+    case logs
+    case cleanAndPackage
+    case deploy
+    case remove
+
+    var name : String {
+        switch self {
+        case .root:
+            return "<root>"
+        case .logs:
+            return "Logs"
+        case .cleanAndPackage:
+            return "Package"
+        case .deploy:
+            return "Deploy"
+        case .remove:
+            return "Remove deployed war"
+        }
+    }
+
+    fileprivate func update(menuItem : NSMenuItem, withWebApp webApp : WebApp) {
+        var selector : Selector? = nil
+        switch self {
+        case .root:
+            ()
+        case .logs:
+            if webApp.hasLogs {
+                selector = #selector(WebApp.openLogs)
+            }
+        case .remove:
+            if webApp.isDeployed {
+                selector = #selector(WebApp.remove)
+            }
+        case .cleanAndPackage:
+            if webApp.canBuild {
+                selector = #selector(WebApp.cleanAndPackage)
+            }
+        case .deploy:
+            if webApp.canDeploy {
+                selector = #selector(WebApp.deploy)
+            }
+        }
+        menuItem.target = selector == nil ? nil : webApp
+        menuItem.action = selector
+    }
+
+    fileprivate var wantsSeparator : Bool {
+        switch self {
+        case .logs:
+            return true
+        default:
+            return false
+        }
+    }
+
+    fileprivate var belongsOnSubmenu : Bool {
+        switch self {
+        case .root:
+            return false
+        default:
+            return true
+        }
+    }
+
+    static let submenuTypes : [MenuItemType] = {
+        var types : [MenuItemType] = []
+        var i = 0
+        while let type = MenuItemType(rawValue: i) {
+            if type.belongsOnSubmenu {
+                types.append(type)
+            }
+            i += 1
+        }
+        return types
+    }()
+}
+
 protocol WebAppManagerDelegate : class {
     func tomcatIsUp() -> Bool
     func finishedScanningFor(webApps : [WebApp : [MenuItemType : NSMenuItem]]) -> Void
@@ -61,26 +140,26 @@ class WebAppManager : NSObject {
         finalApps.forEach({ (app) in
             app.updateState()
 
+            let submenu = NSMenu()
+
+            var allItems : [MenuItemType : NSMenuItem] = [:]
+
+            MenuItemType.submenuTypes.forEach {(type) in
+                let item = NSMenuItem(title: type.name, action: nil, keyEquivalent: "")
+                allItems[type] = item
+                submenu.addItem(item)
+                if type.wantsSeparator {
+                    submenu.addItem(NSMenuItem.separator())
+                }
+            }
+
             let item = NSMenuItem(webApp: app, tomcatIsUp: self.tomcatUp)
 
-            let submenu = NSMenu()
             item.submenu = submenu
 
-            let removalItem = NSMenuItem(title: "remove", action: nil, keyEquivalent: "")
-            submenu.addItem(removalItem)
+            allItems[.root] = item
 
-            let cleanAndPackage = NSMenuItem(title: "clean & package", action: nil, keyEquivalent: "")
-            submenu.addItem(cleanAndPackage)
-
-            let deploy = NSMenuItem(title: "deploy", action: nil, keyEquivalent: "")
-            submenu.addItem(deploy)
-
-            webApps[app] = [
-                .root : item,
-                .remove : removalItem,
-                .deploy : deploy,
-                .cleanAndPackage : cleanAndPackage
-            ]
+            webApps[app] = allItems
             
             app.delegate = self
         })
@@ -90,8 +169,9 @@ class WebAppManager : NSObject {
 
     func update() {
         self.webApps.forEach({ (app, item) in
-            app.updateState()
-            self.updateWebAppItem(app)
+            app.updateState {
+                self.updateWebAppItem(app)
+            }
         })
     }
 
@@ -102,26 +182,8 @@ class WebAppManager : NSObject {
     fileprivate func updateWebAppItem(_ webApp : WebApp) {
         guard let items = webApps[webApp] else { return }
         onMain {
-            if webApp.isDeployed {
-                items[.remove]?.target = webApp
-                items[.remove]?.action = #selector(WebApp.remove)
-            } else {
-                items[.remove]?.target = nil
-                items[.remove]?.action = nil
-            }
-            if webApp.canBuild {
-                items[.cleanAndPackage]?.target = webApp
-                items[.cleanAndPackage]?.action = #selector(WebApp.cleanAndPackage)
-            } else {
-                items[.cleanAndPackage]?.target = nil
-                items[.cleanAndPackage]?.action = nil
-            }
-            if webApp.canDeploy {
-                items[.deploy]?.target = webApp
-                items[.deploy]?.action = #selector(WebApp.deploy)
-            } else {
-                items[.deploy]?.target = nil
-                items[.deploy]?.action = nil
+            for (type, item) in items {
+                type.update(menuItem: item, withWebApp: webApp)
             }
             items[.root]?.updateWithApp(webApp: webApp, tomcatIsUp: self.tomcatUp)
         }
@@ -155,7 +217,13 @@ extension NSMenuItem {
                 self.image = Images.Indicator.present
             }
         } else {
-            self.image = Images.Indicator.off
+            if webApp.isBuilding {
+                self.image = Images.Indicator.warning
+            } else if webApp.hasLogs {
+                self.image = Images.Indicator.error
+            } else {
+                self.image = Images.Indicator.off
+            }
         }
     }
 }

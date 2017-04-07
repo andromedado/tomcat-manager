@@ -22,9 +22,11 @@ class WebApp {
     var pomPath : String?
     var version : String?
 
+    var hasLogs : Bool = false
     var isDeployed : Bool = false
     var isExtracted : Bool = false
     var isUp : Bool = false
+    var isBuilding : Bool = false
     var isBuilt : Bool = false
 
     var canDeploy : Bool = false
@@ -47,7 +49,7 @@ class WebApp {
     }
 
     var buildLogFile : String {
-        return "/tmp/\(self.finalName).buid.log"
+        return "/tmp/\(self.finalName).build.log"
     }
 
     var canBuild : Bool {
@@ -75,16 +77,56 @@ class WebApp {
             ].joined(separator: "/")
     }
     
-    func updateState() {
+    func updateState(_ completion : (() -> Void)? = nil) {
+        var count : Int = 0
+        var expectedCount : Int = 0
+
+        let done : () -> () = {
+            count += 1
+            if (count == expectedCount) {
+                completion?()
+            }
+        }
+
+        expectedCount += 1
         pathExists(path: webAppDirPath) {(exists) in
             self.isExtracted = exists
+            done()
         }
+
+        expectedCount += 1
         pathExists(path: "\(webAppDirPath).war") {(exists) in
             self.isDeployed = exists
+            done()
         }
+
+        expectedCount += 1
         couldDeploy {(could) in
             self.canDeploy = could
+            done()
         }
+
+        expectedCount += 1
+        pathExists(path: self.buildLogFile) { (exists) in
+            self.hasLogs = exists
+            done()
+        }
+
+        if let pomPath = self.pomPath {
+            expectedCount += 1
+            runCommandAsUser(command: "ps -eaf | grep 'mvn' | grep '\(pomPath)' | grep -v grep", silent: true) {(res, _, _) in
+                self.isBuilding = res.count > 0
+                done()
+            }
+        } else {
+            self.isBuilding = false
+        }
+    }
+
+    @objc
+    func openLogs() {
+        guard self.hasLogs else { return }
+        runCommandAsUser(command: "open \"\(self.buildLogFile)\"")
     }
     
     @objc
@@ -100,6 +142,13 @@ class WebApp {
     @objc
     func cleanAndPackage() {
         guard let pomPath = self.pomPath else { return }
+        if self.canDeploy,
+            let builtPath = self.builtWarPath {
+            runCommandAsUser(command: "rm \"\(builtPath)\"")
+        }
+        if self.hasLogs {
+            runCommandAsUser(command: "rm \"\(self.buildLogFile)\"")
+        }
         runCommandAsUser(command: "mvn -DskipTests -DskipRestdoc clean package -f \"\(pomPath)\" > \(self.buildLogFile)")
     }
 

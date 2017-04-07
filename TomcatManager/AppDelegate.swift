@@ -28,13 +28,6 @@ enum MenuSections : Int {
     }()
 }
 
-enum MenuItemType : Int {
-    case root
-    case remove
-    case cleanAndPackage
-    case deploy
-}
-
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     var statusItem : NSStatusItem!
