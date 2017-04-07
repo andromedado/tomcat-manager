@@ -21,12 +21,24 @@ fileprivate protocol PersistablePreference : CanSetup {
     var keyValue : String { get }
     var value : ValueType { get }
     func setValue(_ value : ValueType)
-    var defaultValue : ValueType { get }
+    func getDefaultValue(_ callback : @escaping ((ValueType) -> Void)) -> Void
 }
 
 extension PersistablePreference {
     func setup() {
-        self.setValue(self.defaultValue)
+        self.getDefaultValue { (value) in
+            self.setValue(value)
+        }
+    }
+}
+
+fileprivate protocol HasStaticDefaultValue : PersistablePreference {
+    var defaultValue : ValueType { get }
+}
+
+extension HasStaticDefaultValue {
+    func getDefaultValue(_ callback : @escaping ((ValueType) -> Void)) -> Void {
+        callback(self.defaultValue)
     }
 }
 
@@ -46,21 +58,23 @@ class Preferences {
         var keyValue : String {
             return kPreferenceStorageKeyPrefix + self.rawValue
         }
-        
-        var defaultValue : String {
+
+        func getDefaultValue(_ callback: @escaping ((String) -> Void)) {
             switch self {
             case .catalinaHome:
-                let res = runCommandAsUser(command: "echo $CATALINA_HOME")
-                return res.output.first ?? ""
-            case .repositoryRoot:
-                let res = runCommandAsUser(command: "echo $HOME")
-                if let dir = res.output.first {
-                    return dir + "/projects"
+                runCommandAsUser(command: "echo $CATALINA_HOME") { (res, _, _) in
+                    callback(res.first ?? "")
                 }
-                return ""
+            case .repositoryRoot:
+                runCommandAsUser(command: "echo $HOME") {(res, _, _) in
+                    if let dir = res.first {
+                        callback(dir + "/projects")
+                    }
+                    callback("")
+                }
             }
         }
-        
+
         var value : String {
             return UserDefaults.standard.string(forKey: self.keyValue) ?? ""
         }
@@ -70,7 +84,7 @@ class Preferences {
         }
     }
     
-    enum BooleanPreference : String, PersistablePreference {
+    enum BooleanPreference : String, PersistablePreference, HasStaticDefaultValue {
         typealias ValueType = Bool
         
         case launchOnLogin
@@ -109,7 +123,7 @@ class Preferences {
         }
     }
     
-    enum DatePreference : String, PersistablePreference {
+    enum DatePreference : String, PersistablePreference, HasStaticDefaultValue {
         typealias ValueType = Date?
         
         case lastLaunch

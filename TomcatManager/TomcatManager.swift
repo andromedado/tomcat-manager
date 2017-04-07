@@ -17,19 +17,21 @@ class TomcatManager {
     init() {
     }
     
-    @discardableResult
-    fileprivate func bin(_ script : String) -> ShellResponse {
+    fileprivate func bin(_ script : String, callback : ShellCallback? = nil) -> Void {
         let cmd : String = [catalinaHome, "bin", script].joined(separator: "/")
-        return runCommandAsUser(command:cmd)
+        runCommandAsUser(command:cmd, callback:callback)
     }
     
-    func tomcatPID() -> String? {
-        let (output, _, _) = runCommandAsUser(command: "ps -eaf | grep tomcat | grep 'org.apache.catalina.startup.Bootstrap' | grep -v grep | awk '{ print $2 }'", silent: true)
-        return output.first
+    func tomcatPID(_ callback : @escaping (String?) -> Void) -> Void {
+        runCommandAsUser(command: "ps -eaf | grep tomcat | grep 'org.apache.catalina.startup.Bootstrap' | grep -v grep | awk '{ print $2 }'", silent: true) {(res, _, _) in
+            callback(res.first)
+        }
     }
     
-    func isRunning() -> Bool {
-        return tomcatPID() != nil
+    func isRunning(_ callback : @escaping (Bool) -> Void) -> Void {
+        tomcatPID { (pid) in
+            callback(pid != nil)
+        }
     }
     
     func startup() {

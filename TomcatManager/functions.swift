@@ -30,21 +30,30 @@ extension String {
     }
 }
 
+func inBackground(_ block : @escaping () -> Void) -> Void {
+    DispatchQueue.global().async(execute:block)
+}
+
+func onMain(_ block : @escaping () -> Void) -> Void {
+    DispatchQueue.main.async(execute: block)
+}
+
+typealias ShellCallback = (ShellResponse) -> Void
+
 @discardableResult
-func runCommand(cmd : String, silent : Bool = false, args : String...) -> ShellResponse {
-    
+func syncRunCommand(cmd : String, silent : Bool = false, args : [String]) -> ShellResponse {
     var output : [String] = []
     var error : [String] = []
-    
+
     let task = Process()
     task.launchPath = cmd
     task.arguments = args
-    
+
     let outpipe = Pipe()
     task.standardOutput = outpipe
     let errpipe = Pipe()
     task.standardError = errpipe
-    
+
     task.launch()
 
     let outdata = outpipe.fileHandleForReading.readDataToEndOfFile()
@@ -62,22 +71,33 @@ func runCommand(cmd : String, silent : Bool = false, args : String...) -> ShellR
             error = string.components(separatedBy: "\n")
         }
     }
-    
+
     task.waitUntilExit()
     let status = task.terminationStatus
-    
+
     if !silent {
         print("cmd: \n\(args.joined(separator: " "))")
         print("stdout:\n\(output.joined(separator:"\n"))\n")
         print("stderr:\n\(error.joined(separator:"\n"))")
     }
-    
     return (output, error, status)
 }
 
-@discardableResult
-func runCommandAsUser(command : String, silent : Bool = false) -> ShellResponse {
-    return runCommand(cmd: "/bin/bash", silent: silent, args: "-l", "-c", command)
+func runCommand(cmd : String, silent : Bool = false, args : String..., callback: ShellCallback? = nil) -> Void {
+    inBackground({
+        let res = syncRunCommand(cmd: cmd, silent: silent, args: args)
+        callback?(res)
+    })
+}
+
+func runCommandAsUser(command : String, silent : Bool = false, callback: ShellCallback? = nil) -> Void {
+    return runCommand(cmd: "/bin/bash", silent: silent, args: "-l", "-c", command, callback: callback)
+}
+
+func pathExists(path : String, callback: @escaping ((Bool) -> Void)) -> Void {
+    runCommandAsUser(command: "stat \"\(path)\"", silent: true, callback: {(res, err, _) in
+        callback(res.count > 0 && err.count == 0)
+    })
 }
 
 

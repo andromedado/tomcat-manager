@@ -8,6 +8,8 @@
 
 #import "functions.h"
 
+const NSString* _Nonnull foo = @"";
+
 #pragma mark - Execution Context
 
 void onMain(dispatch_block_t block)

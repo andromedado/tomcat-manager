@@ -50,9 +50,10 @@ class PreferencesController: NSWindowController {
     }
     
     func updateCatalinaHomeValidity() {
-        let (stdout, stderr, _) = runCommandAsUser(command: "stat \"\(catalinaHome.stringValue)/bin/startup.sh\"")
-        let good = stdout.count > 0 && stderr.count == 0
-        self.catalinaDirValidImage.isHidden = !good
+        runCommandAsUser(command: "stat \"\(catalinaHome.stringValue)/bin/startup.sh\"") {(stdout, stderr, _) in
+            let good = stdout.count > 0 && stderr.count == 0
+            self.catalinaDirValidImage.isHidden = !good
+        }
     }
 
     func updateRepositoryRootValidity() {
@@ -60,10 +61,10 @@ class PreferencesController: NSWindowController {
             self.repositoryValidImage.isHidden = true
             return
         }
-
-        let (stdout, stderr, _) = runCommandAsUser(command: "find \"\(repositoryRootInput.stringValue)\" -type f -name pom.xml")
-        let good = stdout.count > 0 && stderr.count == 0
-        self.repositoryValidImage.isHidden = !good
+        runCommandAsUser(command: "find \"\(repositoryRootInput.stringValue)\" -type f -name pom.xml") {(stdout, stderr, _) in
+            let good = stdout.count > 0 && stderr.count == 0
+            self.repositoryValidImage.isHidden = !good
+        }
     }
     
     @IBAction func action(_ sender: Any) {

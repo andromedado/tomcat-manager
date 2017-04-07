@@ -15,3 +15,5 @@ void onMainAsync(dispatch_block_t _Nonnull block);
 void inBackground(dispatch_block_t _Nonnull block);
 void onMainAfter(CGFloat delaySeconds, dispatch_block_t _Nonnull block);
 void inBackgroundAfter(CGFloat delaySeconds, dispatch_block_t _Nonnull block);
+
+extern const NSString* _Nonnull foo;

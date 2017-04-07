@@ -27,6 +27,8 @@ class WebApp {
     var isUp : Bool = false
     var isBuilt : Bool = false
 
+    var canDeploy : Bool = false
+
     init(finalName : String) {
         if finalName.contains(".war") {
             self.finalName = finalName.replacingOccurrences(of: ".war", with: "")
@@ -43,6 +45,27 @@ class WebApp {
     var name : String {
         return self.finalName
     }
+
+    var buildLogFile : String {
+        return "/tmp/\(self.finalName).buid.log"
+    }
+
+    var canBuild : Bool {
+        return self.pomPath != nil
+    }
+
+    var builtWarPath : String? {
+        guard let pomPath = self.pomPath else { return nil }
+        return pomPath.replacingOccurrences(of: "pom.xml", with: "target/\(self.finalName).war")
+    }
+
+    fileprivate func couldDeploy(_ callback : @escaping (Bool) -> Void) -> Void {
+        guard let builtWarPath = self.builtWarPath else {
+            callback(false)
+            return
+        }
+        pathExists(path: builtWarPath, callback: callback)
+    }
     
     fileprivate var webAppDirPath : String {
         return [
@@ -53,10 +76,15 @@ class WebApp {
     }
     
     func updateState() {
-        let (eRes, eErr, _) = runCommandAsUser(command: "stat \"\(webAppDirPath)\"", silent: true)
-        self.isExtracted = eRes.count > 0 && eErr.count == 0
-        let (dRes, dErr, _) = runCommandAsUser(command: "stat \"\(webAppDirPath).war\"", silent: true)
-        self.isDeployed = self.isExtracted || (dRes.count > 0 && dErr.count == 0)
+        pathExists(path: webAppDirPath) {(exists) in
+            self.isExtracted = exists
+        }
+        pathExists(path: "\(webAppDirPath).war") {(exists) in
+            self.isDeployed = exists
+        }
+        couldDeploy {(could) in
+            self.canDeploy = could
+        }
     }
     
     @objc
@@ -69,67 +97,81 @@ class WebApp {
         }
     }
 
-    static func scanPoms() -> [WebApp] {
+    @objc
+    func cleanAndPackage() {
+        guard let pomPath = self.pomPath else { return }
+        runCommandAsUser(command: "mvn -DskipTests -DskipRestdoc clean package -f \"\(pomPath)\" > \(self.buildLogFile)")
+    }
+
+    @objc
+    func deploy() {
+        guard let builtWarPath = self.builtWarPath else { return }
+        runCommandAsUser(command: "cp \"\(builtWarPath)\" \"\(webAppDirPath).war\"")
+    }
+
+    static func scanPoms(_ completion : @escaping (([WebApp]) -> Void)) -> Void {
         let pomDir = Preferences.StringPreference.repositoryRoot.value
         var apps : [WebApp] = []
         guard pomDir.lengthOfBytes(using: .utf8) > 0 else {
-            return apps
+            completion(apps)
+            return
         }
-        let (output, _, _) = runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml")
+        runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml") {(output, _, _) in
+            output.forEach({(pomPath) in
 
-        output.forEach({(pomPath) in
+                var maybeXMLString : String?
+                do {
+                    maybeXMLString = try String(contentsOfFile: pomPath)
+                } catch {
+                    print("bad pom? \(pomPath)")
+                    return
+                }
 
-            var maybeXMLString : String?
-            do {
-                maybeXMLString = try String(contentsOfFile: pomPath)
-            } catch {
-                print("bad pom? \(pomPath)")
-                return
-            }
+                guard let xmlString = maybeXMLString else {
+                    print("unable to build parser")
+                    return
+                }
 
-            guard let xmlString = maybeXMLString else {
-                print("unable to build parser")
-                return
-            }
+                guard let xml = Kanna.XML(xml:xmlString, encoding: .utf8) else {
+                    print("unable to parse doc into Kanna.XMLDoc")
+                    return
+                }
 
-            guard let xml = Kanna.XML(xml:xmlString, encoding: .utf8) else {
-                print("unable to parse doc into Kanna.XMLDoc")
-                return
-            }
+                let namespaces : [String:String] = [
+                    "pom" : "http://maven.apache.org/POM/4.0.0"
+                ]
 
-            let namespaces : [String:String] = [
-                "pom" : "http://maven.apache.org/POM/4.0.0"
-            ]
+                let packaging = xml.at_xpath("//pom:packaging", namespaces:namespaces)?.text ?? ""
+                let maybeVersion = xml.at_xpath("//pom:version", namespaces:namespaces)?.text
+                let maybeFinalName = xml.at_xpath("//pom:finalName", namespaces:namespaces)?.text
 
-            let packaging = xml.at_xpath("//pom:packaging", namespaces:namespaces)?.text ?? ""
-            let maybeVersion = xml.at_xpath("//pom:version", namespaces:namespaces)?.text
-            let maybeFinalName = xml.at_xpath("//pom:finalName", namespaces:namespaces)?.text
+                guard packaging == "war",
+                    let version = maybeVersion,
+                    let finalName = maybeFinalName else { return }
+                
+                let app = WebApp(finalName: finalName)
+                app.version = version
+                app.pomPath = pomPath
+                apps.append(app)
+            })
+            
+            completion(apps)
+        }
 
-            guard packaging == "war",
-                let version = maybeVersion,
-                let finalName = maybeFinalName else { return }
-
-            let app = WebApp(finalName: finalName)
-            app.version = version
-            app.pomPath = pomPath
-            apps.append(app)
-        })
-
-        return apps
     }
 
-    static func scanWebAppsDir() -> [WebApp] {
+    static func scanWebAppsDir(_ completion : @escaping (([WebApp]) -> Void)) -> Void {
         let path : String = [
             Preferences.StringPreference.catalinaHome.value,
             "webapps",
         ].joined(separator: "/")
-        let (res, _, _) = runCommandAsUser(command: "ls \(path) | grep -v 'ROOT'")
-        
-        let apps = res.map({ (dir) -> WebApp in
-            return WebApp(finalName: dir)
-        })
-        
-        return Array(Set(apps))
+        runCommandAsUser(command: "ls \(path) | grep -v 'ROOT'") {(res, _, _) in
+            let apps = res.map({ (dir) -> WebApp in
+                return WebApp(finalName: dir)
+            })
+
+            completion(Array(Set(apps)))
+        }
     }
     
 }
