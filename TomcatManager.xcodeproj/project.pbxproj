@@ -21,6 +21,7 @@
 		7323EA8C1E900A9F004CCA6A /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630211E8FEA5E00556534 /* constants.swift */; };
 		7323EA8D1E900B18004CCA6A /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306301F1E8FE7EB00556534 /* functions.swift */; };
 		734387671EAAB1E8006ECA06 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734387661EAAB1E8006ECA06 /* ProjectManager.swift */; };
+		734387691EAABACE006ECA06 /* POMFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734387681EAABACE006ECA06 /* POMFile.swift */; };
 		73803E171E96F3AD00744759 /* WebAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73803E161E96F3AD00744759 /* WebAppManager.swift */; };
 		73803E191E97ECF800744759 /* EnvManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73803E181E97ECF800744759 /* EnvManager.swift */; };
 		73808C9E1E92F8DE00F3419C /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73808C9D1E92F8DE00F3419C /* functions.m */; };
@@ -65,6 +66,7 @@
 		7323EA841E9009BB004CCA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7323EA861E9009BB004CCA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		734387661EAAB1E8006ECA06 /* ProjectManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
+		734387681EAABACE006ECA06 /* POMFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POMFile.swift; sourceTree = "<group>"; };
 		73803E161E96F3AD00744759 /* WebAppManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAppManager.swift; sourceTree = "<group>"; };
 		73803E181E97ECF800744759 /* EnvManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvManager.swift; sourceTree = "<group>"; };
 		73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TomcatManager-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				73803E161E96F3AD00744759 /* WebAppManager.swift */,
 				73C68E611E917293006C8F9F /* WebApp.swift */,
 				73803E181E97ECF800744759 /* EnvManager.swift */,
+				734387681EAABACE006ECA06 /* POMFile.swift */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				73C68E601E902876006C8F9F /* Preferences.swift in Sources */,
 				7306301E1E8FE67200556534 /* main.swift in Sources */,
 				730630091E8FE4A600556534 /* AppDelegate.swift in Sources */,
+				734387691EAABACE006ECA06 /* POMFile.swift in Sources */,
 				730630241E8FECF100556534 /* TomcatManager.swift in Sources */,
 				730630201E8FE7EB00556534 /* functions.swift in Sources */,
 				73C68E621E917293006C8F9F /* WebApp.swift in Sources */,

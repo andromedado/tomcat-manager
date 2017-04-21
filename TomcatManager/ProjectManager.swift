@@ -44,6 +44,41 @@ class ProjectManager {
         self.updateTimer = timer
     }
 
+    func scanPoms(_ completion : @escaping (([WebApp]) -> Void)) {
+        let pomDir = Preferences.StringPreference.repositoryRoot.value
+        var apps : [WebApp] = []
+        guard pomDir.lengthOfBytes(using: .utf8) > 0 else {
+            completion(apps)
+            return
+        }
+        runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml") {(output, _, _) in
+            output.forEach { (path) in
+                let pom = POMFile(path:path)
+                do {
+                    try pom.read()
+                } catch {
+                    //womp
+                    return
+                }
+
+                guard let packaging = pom.packaging else { return }
+
+                switch packaging {
+                case "war":
+                    apps.append(WebApp(pomFile: pom))
+
+                default:
+                    ()
+                }
+            }
+
+
+
+            completion(apps)
+        }
+
+    }
+
     func updateMenuItems() {
         self.webAppManager.updateAppItems()
     }

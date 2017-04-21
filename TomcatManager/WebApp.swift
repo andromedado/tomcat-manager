@@ -30,6 +30,12 @@ class WebApp {
 
     var canDeploy : Bool = false
 
+    init(pomFile : POMFile) {
+        self.finalName = pomFile.finalName ?? pomFile.path
+        self.pomPath = pomFile.path
+        self.version = pomFile.version
+    }
+
     init(finalName : String) {
         if finalName.contains(".war") {
             self.finalName = finalName.replacingOccurrences(of: ".war", with: "")
@@ -155,53 +161,6 @@ class WebApp {
     func deploy() {
         guard let builtWarPath = self.builtWarPath else { return }
         runCommandAsUser(command: "cp \"\(builtWarPath)\" \"\(webAppDirPath).war\"")
-    }
-
-    static func scanPoms(_ completion : @escaping (([WebApp]) -> Void)) -> Void {
-        let pomDir = Preferences.StringPreference.repositoryRoot.value
-        var apps : [WebApp] = []
-        guard pomDir.lengthOfBytes(using: .utf8) > 0 else {
-            completion(apps)
-            return
-        }
-        runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml") {(output, _, _) in
-            output.forEach({(pomPath) in
-
-                var maybeXMLString : String?
-                do {
-                    maybeXMLString = try String(contentsOfFile: pomPath)
-                } catch {
-                    print("bad pom? \(pomPath)")
-                    return
-                }
-
-                guard let xmlString = maybeXMLString else {
-                    print("unable to build parser")
-                    return
-                }
-
-                do {
-                    let doc = try XMLDocument(xmlString: xmlString, options: 0)
-                    let packaging = try doc.nodes(forXPath: "//packaging").first?.stringValue ?? ""
-                    let maybeVersion = try doc.nodes(forXPath: "//version").first?.stringValue
-                    let maybeFinalName = try doc.nodes(forXPath: "//finalName").first?.stringValue
-
-                    guard packaging == "war",
-                        let version = maybeVersion,
-                        let finalName = maybeFinalName else { return }
-
-                    let app = WebApp(finalName: finalName)
-                    app.version = version
-                    app.pomPath = pomPath
-                    apps.append(app)
-                } catch {
-                    print(error)
-                }
-            })
-            
-            completion(apps)
-        }
-
     }
 
     static func scanWebAppsDir(_ completion : @escaping (([WebApp]) -> Void)) -> Void {

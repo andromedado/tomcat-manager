@@ -128,10 +128,6 @@ class WebAppManager : NSObject {
     }
 
     func scan() {
-        WebApp.scanPoms { (pomApps) in
-            self.pomApps = pomApps
-            self.checkFinishedScanning()
-        }
         WebApp.scanWebAppsDir { (apps) in
             self.deployedApps = apps
             self.checkFinishedScanning()
