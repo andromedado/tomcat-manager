@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Kanna
 
 protocol WebAppDelegate : class {
     func wasRemoved(_ webApp: WebApp)
@@ -181,27 +180,23 @@ class WebApp {
                     return
                 }
 
-                guard let xml = Kanna.XML(xml:xmlString, encoding: .utf8) else {
-                    print("unable to parse doc into Kanna.XMLDoc")
-                    return
+                do {
+                    let doc = try XMLDocument(xmlString: xmlString, options: 0)
+                    let packaging = try doc.nodes(forXPath: "//packaging").first?.stringValue ?? ""
+                    let maybeVersion = try doc.nodes(forXPath: "//version").first?.stringValue
+                    let maybeFinalName = try doc.nodes(forXPath: "//finalName").first?.stringValue
+
+                    guard packaging == "war",
+                        let version = maybeVersion,
+                        let finalName = maybeFinalName else { return }
+
+                    let app = WebApp(finalName: finalName)
+                    app.version = version
+                    app.pomPath = pomPath
+                    apps.append(app)
+                } catch {
+                    print(error)
                 }
-
-                let namespaces : [String:String] = [
-                    "pom" : "http://maven.apache.org/POM/4.0.0"
-                ]
-
-                let packaging = xml.at_xpath("//pom:packaging", namespaces:namespaces)?.text ?? ""
-                let maybeVersion = xml.at_xpath("//pom:version", namespaces:namespaces)?.text
-                let maybeFinalName = xml.at_xpath("//pom:finalName", namespaces:namespaces)?.text
-
-                guard packaging == "war",
-                    let version = maybeVersion,
-                    let finalName = maybeFinalName else { return }
-                
-                let app = WebApp(finalName: finalName)
-                app.version = version
-                app.pomPath = pomPath
-                apps.append(app)
             })
             
             completion(apps)

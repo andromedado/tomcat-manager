@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Kanna.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Launcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +17,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>00604100063A3AF52DB6D30EB670EB73</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4D10E4FF5A483B852B47CCA0B994E340</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>669B41EA903A54867527637D3A261D9F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FE4CD7039C7A9B6EF1018651C69862D5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

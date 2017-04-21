@@ -20,7 +20,7 @@
 		7323EA8B1E9009FF004CCA6A /* Launcher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7323EA7B1E9009BB004CCA6A /* Launcher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7323EA8C1E900A9F004CCA6A /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730630211E8FEA5E00556534 /* constants.swift */; };
 		7323EA8D1E900B18004CCA6A /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7306301F1E8FE7EB00556534 /* functions.swift */; };
-		733CBB0A1E945490000DAC22 /* PomParsingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733CBB091E945490000DAC22 /* PomParsingDelegate.swift */; };
+		734387671EAAB1E8006ECA06 /* ProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734387661EAAB1E8006ECA06 /* ProjectManager.swift */; };
 		73803E171E96F3AD00744759 /* WebAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73803E161E96F3AD00744759 /* WebAppManager.swift */; };
 		73803E191E97ECF800744759 /* EnvManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73803E181E97ECF800744759 /* EnvManager.swift */; };
 		73808C9E1E92F8DE00F3419C /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73808C9D1E92F8DE00F3419C /* functions.m */; };
@@ -64,7 +64,7 @@
 		7323EA811E9009BB004CCA6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7323EA841E9009BB004CCA6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7323EA861E9009BB004CCA6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		733CBB091E945490000DAC22 /* PomParsingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PomParsingDelegate.swift; sourceTree = "<group>"; };
+		734387661EAAB1E8006ECA06 /* ProjectManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectManager.swift; sourceTree = "<group>"; };
 		73803E161E96F3AD00744759 /* WebAppManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAppManager.swift; sourceTree = "<group>"; };
 		73803E181E97ECF800744759 /* EnvManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvManager.swift; sourceTree = "<group>"; };
 		73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TomcatManager-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -133,23 +133,11 @@
 		730630071E8FE4A600556534 /* TomcatManager */ = {
 			isa = PBXGroup;
 			children = (
-				73808C9C1E92F8DE00F3419C /* functions.h */,
-				73808C9D1E92F8DE00F3419C /* functions.m */,
-				730630081E8FE4A600556534 /* AppDelegate.swift */,
-				7306301F1E8FE7EB00556534 /* functions.swift */,
-				730630231E8FECF100556534 /* TomcatManager.swift */,
+				734387641EAAB132006ECA06 /* config */,
+				734387651EAAB153006ECA06 /* classes */,
+				734387631EAAB11E006ECA06 /* views */,
+				734387621EAAB10E006ECA06 /* objc */,
 				7306300C1E8FE4A600556534 /* Assets.xcassets */,
-				730630111E8FE4A600556534 /* Info.plist */,
-				7306301D1E8FE67200556534 /* main.swift */,
-				730630211E8FEA5E00556534 /* constants.swift */,
-				73C68E5B1E902842006C8F9F /* PreferencesController.swift */,
-				73C68E5C1E902842006C8F9F /* PreferencesController.xib */,
-				73C68E5F1E902876006C8F9F /* Preferences.swift */,
-				73803E161E96F3AD00744759 /* WebAppManager.swift */,
-				73C68E611E917293006C8F9F /* WebApp.swift */,
-				73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */,
-				733CBB091E945490000DAC22 /* PomParsingDelegate.swift */,
-				73803E181E97ECF800744759 /* EnvManager.swift */,
 			);
 			path = TomcatManager;
 			sourceTree = "<group>";
@@ -173,6 +161,50 @@
 				7323EA861E9009BB004CCA6A /* Info.plist */,
 			);
 			path = Launcher;
+			sourceTree = "<group>";
+		};
+		734387621EAAB10E006ECA06 /* objc */ = {
+			isa = PBXGroup;
+			children = (
+				73808C9C1E92F8DE00F3419C /* functions.h */,
+				73808C9D1E92F8DE00F3419C /* functions.m */,
+				73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */,
+			);
+			name = objc;
+			sourceTree = "<group>";
+		};
+		734387631EAAB11E006ECA06 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				73C68E5B1E902842006C8F9F /* PreferencesController.swift */,
+				73C68E5C1E902842006C8F9F /* PreferencesController.xib */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
+		734387641EAAB132006ECA06 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				730630081E8FE4A600556534 /* AppDelegate.swift */,
+				7306301D1E8FE67200556534 /* main.swift */,
+				730630211E8FEA5E00556534 /* constants.swift */,
+				730630111E8FE4A600556534 /* Info.plist */,
+				7306301F1E8FE7EB00556534 /* functions.swift */,
+			);
+			name = config;
+			sourceTree = "<group>";
+		};
+		734387651EAAB153006ECA06 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				734387661EAAB1E8006ECA06 /* ProjectManager.swift */,
+				730630231E8FECF100556534 /* TomcatManager.swift */,
+				73C68E5F1E902876006C8F9F /* Preferences.swift */,
+				73803E161E96F3AD00744759 /* WebAppManager.swift */,
+				73C68E611E917293006C8F9F /* WebApp.swift */,
+				73803E181E97ECF800744759 /* EnvManager.swift */,
+			);
+			name = classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,8 +412,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				733CBB0A1E945490000DAC22 /* PomParsingDelegate.swift in Sources */,
 				73C68E5D1E902842006C8F9F /* PreferencesController.swift in Sources */,
+				734387671EAAB1E8006ECA06 /* ProjectManager.swift in Sources */,
 				73803E171E96F3AD00744759 /* WebAppManager.swift in Sources */,
 				73803E191E97ECF800744759 /* EnvManager.swift in Sources */,
 				73C68E601E902876006C8F9F /* Preferences.swift in Sources */,

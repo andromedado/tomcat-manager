@@ -32,7 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var statusItem : NSStatusItem!
     var tomcatManager : TomcatManager?
-    var webAppManager : WebAppManager?
+    var projectManager : ProjectManager?
     var envManager : EnvManager!
     
     var preferences : Preferences!
@@ -74,9 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
         self.tomcatManager = TomcatManager()
-
-        self.webAppManager = WebAppManager()
-        self.webAppManager!.delegate = self
+        self.projectManager = ProjectManager(delegate: self)
 
         self.envManager = EnvManager()
 
@@ -105,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         statusItem.menu = menu
 
-        self.webAppManager!.scan()
+        self.projectManager!.setup()
         self.envManager.scan()
         update()
         
@@ -120,27 +118,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func scheduleUpdate(_ block : @escaping (_ completion : (() -> Void)?) -> Void) {
-//        let timer = Timer(timeInterval: 1.5, repeats: true) { (timer) in
-//        }
-//
         let timer = Timer.scheduledTimer(withTimeInterval: kUpdateInterval, repeats: true) { (timer) in
             block(nil)
         }
-
         timer.tolerance = kUpdateInterval / 5
-
-//        let updater = NSBackgroundActivityScheduler(identifier: "com.shad.statusUpdater")
-//        self.updater = updater
-//        updater.repeats = true
-//        updater.interval = 1.0
-//        updater.tolerance = 0.5
-//        updater.qualityOfService = QualityOfService.background
-//        updater.schedule { (completion) in
-//            block {
-//                completion(.finished)
-//            }
-//        }
-
     }
     
     func update() {
@@ -148,12 +129,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         manager.isRunning {(isRunning) in
             self.tomcatUp = isRunning
         }
-        self.webAppManager?.update()
     }
     
     func updateMenu() {
         self.updateTomcatItem()
-        self.webAppManager?.updateAppItems()
+        self.projectManager?.updateMenuItems()
     }
     
     func updateTomcatItem() {
@@ -195,26 +175,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-extension AppDelegate : WebAppManagerDelegate {
+extension AppDelegate : ProjectManagerDelegate {
     func tomcatIsUp() -> Bool {
         return self.tomcatUp
     }
 
-    func finishedScanningFor(webApps : [WebApp : [MenuItemType : NSMenuItem]]) {
-        if webApps.count > 0 {
-            onMain {
-                var idx : Int = self.statusItem.menu!.index(of: self.webAppsPlaceholderItem!)
-                webApps.values.forEach({ (items) in
-                    self.statusItem.menu!.insertItem(items[.root]!, at: idx)
-                    idx += 1
-                })
-                idx = self.statusItem.menu!.index(of: self.webAppsPlaceholderItem!)
-                self.statusItem.menu!.removeItem(at:idx)
-                self.statusItem.menu!.insertItem(NSMenuItem.separator(), at: idx)
-                self.webAppsPlaceholderItem = nil
-            }
+    func webAppMenuItemsReady(_ menuItems: [NSMenuItem]) {
+        guard let currentPlaceholder = self.webAppsPlaceholderItem,
+            let placeholderIdx = self.statusItem.menu?.index(of: currentPlaceholder) else { return }
+        guard menuItems.count > 0 else {
+            self.statusItem.menu!.removeItem(at: placeholderIdx)
+            return
         }
 
+        menuItems.forEach { self.statusItem.menu?.insertItem($0, at: placeholderIdx) }
+
+        let idx = self.statusItem.menu!.index(of: currentPlaceholder)
+        self.statusItem.menu!.removeItem(at:idx)
+        self.statusItem.menu!.insertItem(NSMenuItem.separator(), at: idx)
+        self.webAppsPlaceholderItem = nil
     }
+
 }
 

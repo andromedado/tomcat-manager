@@ -14,6 +14,5 @@ target 'TomcatManager' do
   use_frameworks!
 
   # Pods for TomcatManager
-  pod 'Kanna', '~> 2.1.0'
 
 end
