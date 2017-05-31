@@ -69,7 +69,7 @@ class EnvManager {
     }
 
     init() {
-        self.menuItem = NSMenuItem(title: kBaseName, action: nil, keyEquivalent: "")
+        self.menuItem = NSMenuItem(title: kBaseName + " - NO ENV DETECTED", action: nil, keyEquivalent: "")
     }
 
     var availableEnvironments : [Env] = [] {
