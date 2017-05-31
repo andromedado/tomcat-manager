@@ -34,9 +34,13 @@ class Env {
     func switchTo() {
         let catalinaHome = Preferences.StringPreference.catalinaHome.value
         guard catalinaHome.lengthOfBytes(using: .utf8) > 0 else { return }
-        runCommandAsUser(command: "rm \"\(catalinaHome)/dibs\"")
-        runCommandAsUser(command: "ln -s \"\(catalinaHome)/dibs_\(self.name)\" \"\(catalinaHome)/dibs\"")
-        self.delegate?.envBecameActive(self)
+        runCommandAsUser(command: "rm \"\(catalinaHome)/dibs\"", callback: {[weak self] (_, _, _) in
+            guard let strongSelf = self else { return }
+            runCommandAsUser(command: "ln -s \"\(catalinaHome)/dibs_\(strongSelf.name)\" \"\(catalinaHome)/dibs\"", callback: {[weak self] (_, _, _) in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.envBecameActive(strongSelf)
+            })
+        })
     }
 }
 
