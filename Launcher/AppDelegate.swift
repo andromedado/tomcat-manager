@@ -36,7 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         #endif
         
         let newPath = NSString.path(withComponents: components)
-        let launched = NSWorkspace.shared().launchApplication(newPath)
+        _ = NSWorkspace.shared().launchApplication(newPath)
 //        
 //        print("launched: \(launched)")
 //        NSWorkspace.shared().runningApplications.forEach { print($0.bundleIdentifier ?? "") }

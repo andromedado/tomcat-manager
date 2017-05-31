@@ -12,54 +12,14 @@ protocol WebAppDelegate : class {
     func wasRemoved(_ webApp: WebApp)
 }
 
-class WebApp {
+class WebApp : JavaProject {
     
     weak var delegate : WebAppDelegate?
 
-    let finalName : String
-
-    var pomPath : String?
-    var version : String?
-
-    var hasLogs : Bool = false
     var isDeployed : Bool = false
     var isExtracted : Bool = false
     var isUp : Bool = false
-    var isBuilding : Bool = false
-    var isBuilt : Bool = false
-
     var canDeploy : Bool = false
-
-    init(pomFile : POMFile) {
-        self.finalName = pomFile.finalName ?? pomFile.path
-        self.pomPath = pomFile.path
-        self.version = pomFile.version
-    }
-
-    init(finalName : String) {
-        if finalName.contains(".war") {
-            self.finalName = finalName.replacingOccurrences(of: ".war", with: "")
-        } else {
-            self.finalName = finalName
-        }
-    }
-
-    func absorb(_ other : WebApp) {
-        self.pomPath = self.pomPath ?? other.pomPath
-        self.version = self.version ?? other.version
-    }
-    
-    var name : String {
-        return self.finalName
-    }
-
-    var buildLogFile : String {
-        return "/tmp/\(self.finalName).build.log"
-    }
-
-    var canBuild : Bool {
-        return self.pomPath != nil
-    }
 
     var builtWarPath : String? {
         guard let pomPath = self.pomPath else { return nil }
@@ -82,7 +42,7 @@ class WebApp {
             ].joined(separator: "/")
     }
     
-    func updateState(_ completion : (() -> Void)? = nil) {
+    override func updateState(_ completion : (() -> Void)? = nil) {
         var count : Int = 0
         var expectedCount : Int = 0
 
@@ -91,6 +51,14 @@ class WebApp {
             if (count == expectedCount) {
                 completion?()
             }
+        }
+
+        //Locking Queue Open Until Everything is kicked off
+        expectedCount += 1
+
+        expectedCount += 1
+        super.updateState { 
+            done()
         }
 
         expectedCount += 1
@@ -126,14 +94,11 @@ class WebApp {
         } else {
             self.isBuilding = false
         }
+
+        //Releasing Locked Queue
+        done()
     }
 
-    @objc
-    func openLogs() {
-        guard self.hasLogs else { return }
-        runCommandAsUser(command: "open \"\(self.buildLogFile)\"")
-    }
-    
     @objc
     func remove() {
         runCommandAsUser(command: "rm -rf \"\(webAppDirPath)\"")
@@ -142,19 +107,6 @@ class WebApp {
         if !self.isDeployed {
             self.delegate?.wasRemoved(self)
         }
-    }
-
-    @objc
-    func cleanAndPackage() {
-        guard let pomPath = self.pomPath else { return }
-        if self.canDeploy,
-            let builtPath = self.builtWarPath {
-            runCommandAsUser(command: "rm \"\(builtPath)\"")
-        }
-        if self.hasLogs {
-            runCommandAsUser(command: "rm \"\(self.buildLogFile)\"")
-        }
-        runCommandAsUser(command: "mvn -DskipTests -DskipRestdoc clean package -f \"\(pomPath)\" > \(self.buildLogFile)")
     }
 
     @objc
@@ -175,6 +127,14 @@ class WebApp {
 
             completion(Array(Set(apps)))
         }
+    }
+
+    override func cleanAndPackage() {
+        if self.canDeploy,
+            let builtPath = self.builtWarPath {
+            runCommandAsUser(command: "rm \"\(builtPath)\"")
+        }
+        super.cleanAndPackage()
     }
     
 }

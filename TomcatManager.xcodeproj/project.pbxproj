@@ -25,6 +25,9 @@
 		73803E171E96F3AD00744759 /* WebAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73803E161E96F3AD00744759 /* WebAppManager.swift */; };
 		73803E191E97ECF800744759 /* EnvManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73803E181E97ECF800744759 /* EnvManager.swift */; };
 		73808C9E1E92F8DE00F3419C /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = 73808C9D1E92F8DE00F3419C /* functions.m */; };
+		73C5E11F1EDEFEE4005DA948 /* protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C5E11E1EDEFEE4005DA948 /* protocols.swift */; };
+		73C5E1211EDF0230005DA948 /* JavaProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C5E1201EDF0230005DA948 /* JavaProject.swift */; };
+		73C5E1231EDF0E44005DA948 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C5E1221EDF0E44005DA948 /* extensions.swift */; };
 		73C68E5D1E902842006C8F9F /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E5B1E902842006C8F9F /* PreferencesController.swift */; };
 		73C68E5E1E902842006C8F9F /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C68E5C1E902842006C8F9F /* PreferencesController.xib */; };
 		73C68E601E902876006C8F9F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C68E5F1E902876006C8F9F /* Preferences.swift */; };
@@ -72,6 +75,9 @@
 		73808C9B1E92F8DD00F3419C /* TomcatManager-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TomcatManager-Bridging-Header.h"; sourceTree = "<group>"; };
 		73808C9C1E92F8DE00F3419C /* functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
 		73808C9D1E92F8DE00F3419C /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
+		73C5E11E1EDEFEE4005DA948 /* protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = protocols.swift; sourceTree = "<group>"; };
+		73C5E1201EDF0230005DA948 /* JavaProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JavaProject.swift; sourceTree = "<group>"; };
+		73C5E1221EDF0E44005DA948 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		73C68E5B1E902842006C8F9F /* PreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		73C68E5C1E902842006C8F9F /* PreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesController.xib; sourceTree = "<group>"; };
 		73C68E5F1E902876006C8F9F /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -192,6 +198,8 @@
 				730630211E8FEA5E00556534 /* constants.swift */,
 				730630111E8FE4A600556534 /* Info.plist */,
 				7306301F1E8FE7EB00556534 /* functions.swift */,
+				73C5E11E1EDEFEE4005DA948 /* protocols.swift */,
+				73C5E1221EDF0E44005DA948 /* extensions.swift */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -203,6 +211,7 @@
 				730630231E8FECF100556534 /* TomcatManager.swift */,
 				73C68E5F1E902876006C8F9F /* Preferences.swift */,
 				73803E161E96F3AD00744759 /* WebAppManager.swift */,
+				73C5E1201EDF0230005DA948 /* JavaProject.swift */,
 				73C68E611E917293006C8F9F /* WebApp.swift */,
 				73803E181E97ECF800744759 /* EnvManager.swift */,
 				734387681EAABACE006ECA06 /* POMFile.swift */,
@@ -415,7 +424,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73C5E1211EDF0230005DA948 /* JavaProject.swift in Sources */,
 				73C68E5D1E902842006C8F9F /* PreferencesController.swift in Sources */,
+				73C5E11F1EDEFEE4005DA948 /* protocols.swift in Sources */,
 				734387671EAAB1E8006ECA06 /* ProjectManager.swift in Sources */,
 				73803E171E96F3AD00744759 /* WebAppManager.swift in Sources */,
 				73803E191E97ECF800744759 /* EnvManager.swift in Sources */,
@@ -424,6 +435,7 @@
 				730630091E8FE4A600556534 /* AppDelegate.swift in Sources */,
 				734387691EAABACE006ECA06 /* POMFile.swift in Sources */,
 				730630241E8FECF100556534 /* TomcatManager.swift in Sources */,
+				73C5E1231EDF0E44005DA948 /* extensions.swift in Sources */,
 				730630201E8FE7EB00556534 /* functions.swift in Sources */,
 				73C68E621E917293006C8F9F /* WebApp.swift in Sources */,
 				73808C9E1E92F8DE00F3419C /* functions.m in Sources */,

@@ -180,7 +180,7 @@ extension AppDelegate : ProjectManagerDelegate {
         return self.tomcatUp
     }
 
-    func webAppMenuItemsReady(_ menuItems: [NSMenuItem]) {
+    func menuItemsReady(_ menuItems: [NSMenuItem]) {
         guard let currentPlaceholder = self.webAppsPlaceholderItem,
             let placeholderIdx = self.statusItem.menu?.index(of: currentPlaceholder) else { return }
         guard menuItems.count > 0 else {

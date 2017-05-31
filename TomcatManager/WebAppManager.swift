@@ -10,8 +10,7 @@ import Cocoa
 
 fileprivate let kSharedManager = WebAppManager()
 
-protocol WebAppManagerDelegate : class {
-    func tomcatIsUp() -> Bool
+protocol WebAppManagerDelegate : class, KnowsTomcatStatus {
     func webAppMenuItemsReady(_ menuItems : [NSMenuItem]) -> Void
 }
 
@@ -19,6 +18,7 @@ class WebAppManager : NSObject {
 
     enum MenuItemType : Int {
         case root
+        case pomInfo
         case logs
         case cleanAndPackage
         case deploy
@@ -30,6 +30,8 @@ class WebAppManager : NSObject {
                 return "<root>"
             case .logs:
                 return "Logs"
+            case .pomInfo:
+                return "Pom Info"
             case .cleanAndPackage:
                 return "Package"
             case .deploy:
@@ -41,9 +43,12 @@ class WebAppManager : NSObject {
 
         fileprivate func update(menuItem : NSMenuItem, withWebApp webApp : WebApp, tomcatIsUp : Bool) {
             var selector : Selector? = nil
+            var selectorPresenceControlsEnabled = true
+
             switch self {
             case .root:
                 menuItem.title = webApp.name
+                selectorPresenceControlsEnabled = false
                 if webApp.isDeployed {
                     if tomcatIsUp {
                         if webApp.isExtracted {
@@ -80,9 +85,66 @@ class WebAppManager : NSObject {
                 if webApp.canDeploy {
                     selector = #selector(WebApp.deploy)
                 }
+            case .pomInfo:
+                selectorPresenceControlsEnabled = false
+                if let pom = webApp.pomFile {
+                    var items : [NSMenuItem] = []
+
+                    if webApp.pomPath != nil {
+                        let item = NSMenuItem(title: "pom.xml", action: nil, keyEquivalent: "")
+                        item.target = webApp
+                        item.action = #selector(WebApp.openPomFile)
+                        items.append(item)
+                    }
+
+                    let extractors : [(String, ((POMFile) -> String?))] = [
+                        ("Version", { $0.version }),
+                        ("Artifact Id", { $0.artifactId }),
+                    ]
+
+                    let miscInfo = extractors.flatMap({ (name, extractor) -> NSMenuItem? in
+                        guard let val = extractor(pom) else { return nil }
+                        return NSMenuItem(title: "\(name): \(val)", action: nil, keyEquivalent: "")
+                    })
+
+                    if miscInfo.count > 0 {
+                        if items.count > 0 {
+                            items.append(NSMenuItem.separator())
+                        }
+                        items.append(contentsOf: miscInfo)
+                    }
+
+                    if pom.dependencies.count > 0 {
+                        if items.count > 0 {
+                            items.append(NSMenuItem.separator())
+                        }
+                        items.append(NSMenuItem(title: "Dependencies", action: nil, keyEquivalent: ""))
+                        pom.dependencies.forEach({ (dep) in
+                            let item = NSMenuItem(title: "\(dep.artifactId) : \(dep.version)", action: nil, keyEquivalent: "")
+                            item.isEnabled = true
+                            item.indentationLevel = 1
+                            items.append(item)
+                        })
+                    }
+
+                    if items.count > 0 {
+                        let submenu = NSMenu(title: "Pom Info")
+                        items.forEach { submenu.addItem($0) }
+                        submenu.autoenablesItems = false
+                        menuItem.submenu = submenu
+                    } else {
+                        menuItem.submenu = nil
+                    }
+
+                } else {
+                    menuItem.submenu = nil
+                }
             }
             menuItem.target = selector == nil ? nil : webApp
             menuItem.action = selector
+            if selectorPresenceControlsEnabled {
+                menuItem.isEnabled = selector != nil
+            }
         }
 
         fileprivate var wantsSeparator : Bool {
@@ -123,6 +185,8 @@ class WebAppManager : NSObject {
     fileprivate var pomApps : [WebApp]?
     fileprivate var deployedApps : [WebApp]?
 
+    fileprivate(set) var menuItems : [NSMenuItem] = []
+
     fileprivate var tomcatUp : Bool {
         return self.delegate?.tomcatIsUp() ?? false
     }
@@ -132,6 +196,11 @@ class WebAppManager : NSObject {
             self.deployedApps = apps
             self.checkFinishedScanning()
         }
+    }
+
+    func webAppsFoundScanningPoms(_ apps : [WebApp]) {
+        self.pomApps = apps
+        self.checkFinishedScanning()
     }
 
     fileprivate func checkFinishedScanning() {
@@ -157,6 +226,7 @@ class WebAppManager : NSObject {
 
             MenuItemType.all.forEach {(type) in
                 let item = NSMenuItem(title: type.name, action: nil, keyEquivalent: "")
+                item.isEnabled = true
                 allItems[type] = item
                 if type.belongsOnSubmenu {
                     submenu.addItem(item)
@@ -166,6 +236,7 @@ class WebAppManager : NSObject {
                 }
             }
 
+            submenu.autoenablesItems = false
             allItems[.root]!.submenu = submenu
 
             webApps[app] = allItems
@@ -173,11 +244,11 @@ class WebAppManager : NSObject {
             app.delegate = self
         })
 
-        let rootItems : [NSMenuItem] = webApps.map { (_, dict) -> NSMenuItem in
+        self.menuItems = webApps.map { (_, dict) -> NSMenuItem in
             return dict[.root]!
         }
 
-        self.delegate?.webAppMenuItemsReady(rootItems)
+        self.delegate?.webAppMenuItemsReady(self.menuItems)
     }
 
     func update() {

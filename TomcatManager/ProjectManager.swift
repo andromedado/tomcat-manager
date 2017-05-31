@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import Cocoa
 
 fileprivate let kUpdateInterval : TimeInterval = 1.0
 
-protocol ProjectManagerDelegate : WebAppManagerDelegate {
-    //
+protocol ProjectManagerDelegate : class, KnowsTomcatStatus {
+    func menuItemsReady(_ menuItems: [NSMenuItem])
 }
 
 class ProjectManager {
@@ -26,11 +27,14 @@ class ProjectManager {
         self.delegate = delegate
 
         self.webAppManager = WebAppManager()
-        self.webAppManager.delegate = self.delegate
+        self.webAppManager.delegate = self
     }
 
     func setup() {
         self.webAppManager.scan()
+        self.scanPoms { [weak self] (webApps) in
+            self?.webAppManager.webAppsFoundScanningPoms(webApps)
+        }
 
         self.updateTimer?.invalidate()
         let timer = Timer.scheduledTimer(withTimeInterval: kUpdateInterval, repeats: true) { [weak self] (timer) in
@@ -46,9 +50,10 @@ class ProjectManager {
 
     func scanPoms(_ completion : @escaping (([WebApp]) -> Void)) {
         let pomDir = Preferences.StringPreference.repositoryRoot.value
-        var apps : [WebApp] = []
+        var webApps : [WebApp] = []
+
         guard pomDir.lengthOfBytes(using: .utf8) > 0 else {
-            completion(apps)
+            completion(webApps)
             return
         }
         runCommandAsUser(command: "find \"\(pomDir)\" -type f -name pom.xml") {(output, _, _) in
@@ -58,6 +63,7 @@ class ProjectManager {
                     try pom.read()
                 } catch {
                     //womp
+                    print("couldn't read pom \(path)")
                     return
                 }
 
@@ -65,16 +71,14 @@ class ProjectManager {
 
                 switch packaging {
                 case "war":
-                    apps.append(WebApp(pomFile: pom))
+                    webApps.append(WebApp(pomFile: pom))
 
                 default:
                     ()
                 }
             }
 
-
-
-            completion(apps)
+            completion(webApps)
         }
 
     }
@@ -88,4 +92,16 @@ class ProjectManager {
     }
 
 }
+
+extension ProjectManager : WebAppManagerDelegate {
+
+    func tomcatIsUp() -> Bool {
+        return self.delegate.tomcatIsUp()
+    }
+
+    func webAppMenuItemsReady(_ menuItems: [NSMenuItem]) {
+        self.delegate.menuItemsReady(menuItems)
+    }
+}
+
 
