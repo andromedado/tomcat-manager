@@ -62,7 +62,7 @@ class WebAppManager : NSObject {
                 } else {
                     if webApp.isBuilding {
                         menuItem.image = Images.Indicator.warning
-                    } else if webApp.hasLogs {
+                    } else if webApp.hasLogs && !webApp.canDeploy {
                         menuItem.image = Images.Indicator.error
                     } else {
                         menuItem.image = Images.Indicator.off
